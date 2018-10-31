@@ -13,9 +13,9 @@ const TodoItem = ({
     return (
         <li>
             <span>{text}</span>
-            <input type="checkbox" checked={isComplete} onChange={markComplete} />
+            <input type="checkbox" onChange={() => markComplete(index)} checked={isComplete} />
             <button onClick={editTodo}>Edit</button>
-            <button onClick={deleteTodo}>Delete</button>
+            <button onClick={() => deleteTodo(index)}>Delete</button>
         </li>
     );
 }

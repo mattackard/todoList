@@ -1,31 +1,33 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
-class TextInput extends Component {
+const TextInput = ({submitTodo}) => {
 
-    static propTypes = {
-        submitTodo: PropTypes.func.isRequired
-    };
+    let todo = React.createRef();
 
-    //initialize state ?
-
-    placeHolders = [
+    let placeHolders = [
         'Buy milk',
         'Run a mile',
         'Do some laundry',
         'Pay water bill'
     ];
 
-    //createRef ?
-    
-    render() {
-        return (
-            <div className="textInput">
-                <input type="text" placeholder={this.placeHolders[Math.floor(Math.random() * this.placeHolders.length)]} />
-                <button type="submit" onSubmit={this.props.submitTodo}>Submit</button>
-            </div>
-        );
-    }  
+    let handleSubmit = (e) => {
+        e.preventDefault();
+        submitTodo(todo.current.value);
+        e.currentTarget.reset();
+    }
+
+    return (
+        <form className="textInput" onSubmit={handleSubmit}>
+            <input type="text" ref={todo} placeholder={placeHolders[Math.floor(Math.random() * placeHolders.length)]} />
+            <button type="submit">Submit</button>
+        </form>
+    );
 }
+
+TextInput.propTypes = {
+    submitTodo: PropTypes.func.isRequired
+};
 
 export default TextInput;

@@ -6,23 +6,21 @@ import TextInput from './components/TextInput';
 
 class App extends Component {
 
-  state = {
-    todo: [
-      {
-        text: 'This is a test todo item',
-        isComplete: false
-      },
-      {
-        text: 'This test text is completed',
-        isComplete: true
-      }
-    ]
+  state = {           //state reloads all stateful components, need to change to only update specific component
+    todo: [  ]
   };
 
   //submitTodo
-  submitTodo = (e) => {
-    e.preventDefault();
-    console.log('submit');
+  submitTodo = (todoText) => {    //add a todo list item 
+    this.setState({
+      todo: [
+        ...this.state.todo,
+        {
+          text: todoText,
+          isComplete: false
+        }
+      ]
+    });
   }
 
   //editTodo
@@ -31,16 +29,20 @@ class App extends Component {
   }
 
   //deleteTodo
-  deleteTodo = () => {
-    console.log('delete');
+  deleteTodo = (index) => {           //removes the todo list item
+    let newState = this.state.todo;
+    newState.splice(index, 1);
+    this.setState({
+        todo: newState
+    });
   }
 
   //input text change
 
   //checkbox change
-  markComplete = (index) => {                 //currently adds isComplete as top level state outside of the todo array
+  markComplete = (index) => {                 //checks checkbox to indicate complete todo item
     this.setState( prevState => ({
-      isComplete: !prevState.isComplete
+      isComplete: prevState.todo[index].isComplete = !prevState.todo[index].isComplete
     }));
   }
 
