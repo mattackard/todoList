@@ -10,26 +10,57 @@ class App extends Component {
     todo: [  ]
   };
 
-  //submitTodo
-  submitTodo = (todoText) => {    //add a todo list item 
+  //adds a todo list item to the list
+  submitTodo = (todoText) => {    
     this.setState({
       todo: [
         ...this.state.todo,
         {
           text: todoText,
-          isComplete: false
+          isComplete: false,
+          isEditing: false
         }
       ]
     });
   }
 
-  //editTodo
-  editTodo = () => {
-    console.log('edit');
+  //toggles a boolean value on a todo list item
+  toggleTodoBool = (indexToChange, param) => {
+    this.setState({
+      todo: this.state.todo.map((todo, index) => {
+        if (index === indexToChange) {
+          return {
+            ...todo,
+            [param]: !todo[param]
+          }
+        }
+        return todo;
+      })
+    });
   }
 
-  //deleteTodo
-  deleteTodo = (index) => {           //removes the todo list item
+  //sets the new todo list text when user is editing
+  setTodoTextAt = (indexToChange, newText) => {
+    this.setState({
+      todo: this.state.todo.map((todo, index) => {
+        if (index === indexToChange) {
+          return {
+            ...todo,
+            text: newText
+          }
+        }
+        return todo;
+      })
+    });
+  }
+
+  //toggles the isEditing state
+  toggleEditing = (indexToChange, newText) => {
+    this.toggleTodoBool(indexToChange, "isEditing");
+  }
+
+  //removes a todo list item from the list
+  deleteTodo = (index) => {         
     let newState = this.state.todo;
     newState.splice(index, 1);
     this.setState({
@@ -37,13 +68,9 @@ class App extends Component {
     });
   }
 
-  //input text change
-
-  //checkbox change
-  markComplete = (index) => {                 //checks checkbox to indicate complete todo item
-    this.setState( prevState => ({
-      isComplete: prevState.todo[index].isComplete = !prevState.todo[index].isComplete
-    }));
+  //sets the state od isComplete when checkbox has been checked
+  markComplete = (index) => {      
+    this.toggleTodoBool(index, "isComplete");
   }
 
   render() {
@@ -65,9 +92,11 @@ class App extends Component {
                 index={index}
                 text={td.text} 
                 isComplete={td.isComplete} 
+                isEditing={td.isEditing}
                 markComplete={this.markComplete} 
-                editTodo={this.editTodo} 
+                editTodo={this.toggleEditing} 
                 deleteTodo={this.deleteTodo} 
+                setTodoText={this.setTodoTextAt}
               />
             ))
           }
