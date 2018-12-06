@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './App.css';
+import './App.scss';
 
 import TodoItem from './components/TodoItem';
 import TextInput from './components/TextInput';
