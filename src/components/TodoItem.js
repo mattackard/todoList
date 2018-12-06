@@ -9,16 +9,17 @@ const TodoItem = ({
     isComplete, 
     isEditing,
     markComplete, 
-    editTodo,
+    toggleBool,
     deleteTodo,
-    setTodoText
+    setTodoText,
+    onKeyPress
 }) => {
 
     return (
         <li>
-            <TodoText edit={isEditing} updateText={e => setTodoText(index, e.target.value)} >{text}</TodoText>
+            <TodoText edit={isEditing} onKeyPress={e => onKeyPress(e, 13, index, 'isEditing', toggleBool)} updateText={e => setTodoText(index, e.target.value)} >{text}</TodoText>
             <input type="checkbox" onChange={() => markComplete(index)} checked={isComplete} />
-            <button onClick={() => editTodo(index)}>{isEditing ? "Save" : "Edit"}</button>
+            <button onClick={() => toggleBool(index, 'isEditing')}>{isEditing ? "Save" : "Edit"}</button>
             <button onClick={() => deleteTodo(index)}>Delete</button>
         </li>
     );
@@ -30,7 +31,7 @@ TodoItem.propTypes = {
     isComplete: PropTypes.bool.isRequired,
     isEditing: PropTypes.bool.isRequired,
     markComplete: PropTypes.func.isRequired,
-    editTodo: PropTypes.func.isRequired,
+    toggleBool: PropTypes.func.isRequired,
     deleteTodo: PropTypes.func.isRequired,
     setTodoText: PropTypes.func.isRequired
 }

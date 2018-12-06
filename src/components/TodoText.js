@@ -5,7 +5,7 @@ const TodoText = (props) => {
 
     if (props.edit) {
         return (
-            <input type="text" value={props.children} onChange={props.updateText} />
+            <input type="text" value={props.children} onKeyDown={props.onKeyPress} onChange={props.updateText} />
         );
     } 
     else {

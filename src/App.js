@@ -54,11 +54,6 @@ class App extends Component {
     });
   }
 
-  //toggles the isEditing state
-  toggleEditing = (indexToChange, newText) => {
-    this.toggleTodoBool(indexToChange, "isEditing");
-  }
-
   //removes a todo list item from the list
   deleteTodo = (index) => {         
     let newState = this.state.todo;
@@ -71,6 +66,13 @@ class App extends Component {
   //sets the state od isComplete when checkbox has been checked
   markComplete = (index) => {      
     this.toggleTodoBool(index, "isComplete");
+  }
+
+  //runs a function on a defined key press
+  onKeyPress = (e, keyCode, index, param, func) => {
+    if (e.keyCode === keyCode) {
+      func(index, param);
+    }
   }
 
   render() {
@@ -94,9 +96,10 @@ class App extends Component {
                 isComplete={td.isComplete} 
                 isEditing={td.isEditing}
                 markComplete={this.markComplete} 
-                editTodo={this.toggleEditing} 
+                toggleBool={this.toggleTodoBool} 
                 deleteTodo={this.deleteTodo} 
                 setTodoText={this.setTodoTextAt}
+                onKeyPress={this.onKeyPress}
               />
             ))
           }
