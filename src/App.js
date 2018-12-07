@@ -14,12 +14,12 @@ class App extends Component {
   submitTodo = (todoText) => {    
     this.setState({
       todo: [
-        ...this.state.todo,
         {
           text: todoText,
           isComplete: false,
           isEditing: false
-        }
+        },
+        ...this.state.todo
       ]
     });
   }
