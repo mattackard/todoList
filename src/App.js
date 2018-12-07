@@ -3,11 +3,20 @@ import './App.scss';
 
 import TodoItem from './components/TodoItem';
 import TextInput from './components/TextInput';
+import Filters from './components/Filters';
 
 class App extends Component {
 
-  state = {           //state reloads all stateful components, need to change to only update specific component
-    todo: [  ]
+  state = {
+    todo: [  ],
+    filterArray: [
+      'Complete',
+      'Incomplete',
+      'Upcoming Deadline',
+      'some',
+      'more',
+      'filters'
+    ]
   };
 
   //adds a todo list item to the list
@@ -80,12 +89,13 @@ class App extends Component {
       <div className="App">
         <h1>Todo List</h1>
 
-        {/* list input */}
-        <TextInput 
-          submitTodo={this.submitTodo}
-        />
+        {/* main todo input form */}
+        <TextInput submitTodo={this.submitTodo} />
 
-        {/* list entry */}
+        {/* filter menu for searching based on tags/complete */}
+        <Filters filterList={this.state.filterArray} />
+
+        {/* todo item list */}
         <ul>
           { 
             this.state.todo.map((td, index) => (
