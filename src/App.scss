@@ -2,3 +2,22 @@
 * {
   text-align: center;
 }
+
+#inputTagList {
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+#inputTagList li {
+    padding: .3em;
+}
+
+#listContainer {
+    list-style: none;
+}
+
+#listContainer li {
+    padding: .5em;
+}

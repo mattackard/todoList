@@ -6,14 +6,24 @@ import TodoText from './TodoText';
 const TodoItem = ({
     index, 
     text, 
-    isComplete, 
+    tags, 
     isEditing,
-    markComplete, 
+    addTag, 
+    removeTag,
     toggleBool,
     deleteTodo,
     setTodoText,
     onKeyPress
 }) => {
+
+    const completeToggle = () => {
+        if (tags.includes('Complete')) {
+            removeTag(index, 'Complete')
+        }
+        else {
+            addTag(index, 'Complete');
+        }
+    }
 
     return (
         <li>
@@ -23,7 +33,7 @@ const TodoItem = ({
                 updateText={e => setTodoText(index, e.target.value)} 
                 >{text}
             </TodoText>
-            <input type="checkbox" onChange={() => markComplete(index)} checked={isComplete} />
+            <input type="checkbox" onChange={completeToggle} checked={tags.includes('Complete')} />
             <button onClick={() => toggleBool(index, 'isEditing')}>{isEditing ? "Save" : "Edit"}</button>
             <button onClick={() => deleteTodo(index)}>Delete</button>
         </li>
@@ -33,9 +43,10 @@ const TodoItem = ({
 TodoItem.propTypes = {
     index: PropTypes.number.isRequired,
     text: PropTypes.string,
-    isComplete: PropTypes.bool.isRequired,
+    tags: PropTypes.arrayOf(PropTypes.string),
     isEditing: PropTypes.bool.isRequired,
-    markComplete: PropTypes.func.isRequired,
+    addTag: PropTypes.func.isRequired,
+    removeTag: PropTypes.func.isRequired,
     toggleBool: PropTypes.func.isRequired,
     deleteTodo: PropTypes.func.isRequired,
     setTodoText: PropTypes.func.isRequired

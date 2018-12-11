@@ -7,16 +7,37 @@ import Filters from './components/Filters';
 
 class App extends Component {
 
+  //todo sample --- replace with empty array later
+  // [
+  //   {
+  //     text: 'Here is list item 1',
+  //     isEditing: false,
+  //     tags: []
+  //   },
+  //   {
+  //     text: 'Do this next',
+  //     isEditing: false,
+  //     tags: []
+  //   }
+  // ]
+
   state = {
-    todo: [  ],
+    todo: [
+      {
+        text: 'Here is list item 1',
+        isEditing: false,
+        tags: []
+      },
+      {
+        text: 'Do this next',
+        isEditing: false,
+        tags: []
+      }
+    ],
     filterArray: [
-      'Complete',
-      'Incomplete',
-      'Upcoming Deadline',
-      'some',
-      'more',
-      'filters'
-    ]
+      'Complete'
+    ],
+    currentFilter: ''
   };
 
   //adds a todo list item to the list
@@ -25,8 +46,8 @@ class App extends Component {
       todo: [
         {
           text: todoText,
-          isComplete: false,
-          isEditing: false
+          isEditing: false,
+          tags: []
         },
         ...this.state.todo
       ]
@@ -72,9 +93,68 @@ class App extends Component {
     });
   }
 
-  //sets the state od isComplete when checkbox has been checked
-  markComplete = (index) => {      
-    this.toggleTodoBool(index, "isComplete");
+  //remove tag
+  removeTag = (indexToChange, tag) => {
+    if (this.state.todo[indexToChange].tags.includes(tag)) {
+      this.setState({
+        todo: this.state.todo.map((todo, index) => {
+          if (index === indexToChange) {
+            return {
+              ...todo,
+              tags: [
+                ...todo.tags.splice(0, indexToChange),
+                ...todo.tags.splice(indexToChange + 1)
+              ]
+            }
+          }
+          return todo;
+        })
+      });
+    }
+    else {
+      alert("Tag not found or already deleted");
+    }
+  }
+
+  //adds a tag to a todo item and adds the tag to the filter list
+  //prevents duplicate tags from being created
+  addTag = (indexToChange, tag) => {      
+    if (!this.state.filterArray.includes(tag) && !this.state.todo[indexToChange].tags.includes(tag)) {
+      this.setState({
+        filterArray: [
+          ...this.state.filterArray,
+          tag
+        ],
+        todo: this.state.todo.map((todo, index) => {
+          if (index === indexToChange) {
+            return {
+              ...todo,
+              tags: [
+                ...todo.tags,
+                tag
+              ]
+            }
+          }
+          return todo;
+        })
+      });
+    }
+    else if (!this.state.todo[indexToChange].tags.includes(tag)) {
+      this.setState({
+        todo: this.state.todo.map((todo, index) => {
+          if (index === indexToChange) {
+            return {
+              ...todo,
+              tags: [
+                ...todo.tags,
+                tag
+              ]
+            }
+          }
+          return todo;
+        })
+      });
+    }
   }
 
   //runs a function on a defined key press
@@ -84,34 +164,71 @@ class App extends Component {
     }
   }
 
+  //sets the current filter when a filter is selected
+  setFilter = (selectedFilter) => {
+    if (selectedFilter === 'Clear Filters') {
+      this.setState({
+        currentFilter: ''
+      });
+    }
+    else {
+      this.setState({
+        currentFilter: selectedFilter
+      });
+    }
+  }
+
   render() {
     return (
       <div className="App">
         <h1>Todo List</h1>
 
         {/* main todo input form */}
-        <TextInput submitTodo={this.submitTodo} />
+        <TextInput id="newTodoForm" submitTodo={this.submitTodo} />
 
         {/* filter menu for searching based on tags/complete */}
-        <Filters filterList={this.state.filterArray} />
+        <Filters id="filterDropdown" setFilter={this.setFilter} filterList={this.state.filterArray} />
 
         {/* todo item list */}
-        <ul>
+        <ul id="listContainer">
           { 
-            this.state.todo.map((td, index) => (
-              <TodoItem 
-                key={index} 
-                index={index}
-                text={td.text} 
-                isComplete={td.isComplete} 
-                isEditing={td.isEditing}
-                markComplete={this.markComplete} 
-                toggleBool={this.toggleTodoBool} 
-                deleteTodo={this.deleteTodo} 
-                setTodoText={this.setTodoTextAt}
-                onKeyPress={this.onKeyPress}
-              />
-            ))
+            this.state.todo.map((td, index) => {
+              if (this.state.currentFilter) {
+                if (td.tags.includes(this.state.currentFilter)) {
+                  return ( <TodoItem 
+                    key={index} 
+                    index={index}
+                    text={td.text} 
+                    tags={td.tags} 
+                    isEditing={td.isEditing}
+                    addTag={this.addTag} 
+                    removeTag={this.removeTag}
+                    toggleBool={this.toggleTodoBool} 
+                    deleteTodo={this.deleteTodo} 
+                    setTodoText={this.setTodoTextAt}
+                    onKeyPress={this.onKeyPress}
+                  /> );
+                }
+                else {
+                  return null;
+                }
+              }
+              else {
+                return ( <TodoItem 
+                  key={index} 
+                  index={index}
+                  text={td.text} 
+                  tags={td.tags} 
+                  isEditing={td.isEditing}
+                  addTag={this.addTag} 
+                  removeTag={this.removeTag}
+                  toggleBool={this.toggleTodoBool} 
+                  deleteTodo={this.deleteTodo} 
+                  setTodoText={this.setTodoTextAt}
+                  onKeyPress={this.onKeyPress}
+                /> );
+              }
+            })
           }
         </ul>
       </div>

@@ -28,9 +28,20 @@ const TextInput = ({submitTodo}) => {
     }
 
     return (
-        <form className="textInput" onSubmit={handleSubmit}>
-            <input type="text" ref={todo} placeholder={currentPlaceholder} />
+        <form id="createTodo" onSubmit={handleSubmit}>
+            <input id="todoText" type="text" ref={todo} placeholder={currentPlaceholder} />
             <button type="submit">Submit</button>
+            <input id="tagInput" type="text" placeholder="Add tags" />
+            <button>Add Tag</button>
+            <ul id="inputTagList"> 
+                {/* tags should have their own component with bubble, x button for delete */}
+                <li>Tags</li>
+                <li>Should</li>
+                <li>Display</li>
+                <li>Here</li>
+            </ul>
+            <label for="inputDeadline">Deadline: </label>
+            <input id="inputDeadline" type="date" />
         </form>
     );
 }
