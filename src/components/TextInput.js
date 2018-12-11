@@ -15,6 +15,7 @@ let currentPlaceholder = placeholders[Math.floor(Math.random() * placeholders.le
 const TextInput = ({submitTodo}) => {
 
     let todo = React.createRef();
+    let tags = React.createRef();
 
     let changePlaceholder = () => {
         return placeholders[Math.floor(Math.random() * placeholders.length)];
@@ -22,7 +23,16 @@ const TextInput = ({submitTodo}) => {
 
     let handleSubmit = (e) => {
         e.preventDefault();
-        submitTodo(todo.current.value);
+
+        //get the tags associated with the current todo to submit
+        let tagsToSubmit = [];
+        tags.current.childNodes.forEach((li) => {tagsToSubmit.push(li.innerText)});
+        console.log(tagsToSubmit);
+
+        //submit the todo item with text and tags
+        submitTodo(todo.current.value, tagsToSubmit);
+
+        //randomizes the placeholder text for the todo text input
         currentPlaceholder = changePlaceholder();
         e.currentTarget.reset();
     }
@@ -33,14 +43,14 @@ const TextInput = ({submitTodo}) => {
             <button type="submit">Submit</button>
             <input id="tagInput" type="text" placeholder="Add tags" />
             <button>Add Tag</button>
-            <ul id="inputTagList"> 
+            <ul id="inputTagList" ref={tags}> 
                 {/* tags should have their own component with bubble, x button for delete */}
-                <li>Tags</li>
-                <li>Should</li>
-                <li>Display</li>
-                <li>Here</li>
+                <li value="Tags">Tags</li>
+                <li value="Should">Should</li>
+                <li value="Display">Display</li>
+                <li value="Here">Here</li>
             </ul>
-            <label for="inputDeadline">Deadline: </label>
+            <label htmlFor="inputDeadline">Deadline: </label>
             <input id="inputDeadline" type="date" />
         </form>
     );
