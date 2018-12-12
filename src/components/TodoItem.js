@@ -26,7 +26,8 @@ const TodoItem = ({
     }
 
     return (
-        <li>
+        <li className="todoItem">
+        <button className="dragTodo">|||</button>
             <TodoText 
                 edit={isEditing} 
                 onKeyPress={e => onKeyPress(e, 13, index, 'isEditing', toggleBool)} 

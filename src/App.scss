@@ -1,23 +1,111 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    min-width: 100vw;
+    min-height: 100vh;
+    font-family: 'Pragati Narrow', sans-serif;
+}
 
-* {
+.App {
   text-align: center;
+  background-color: tomato;
+  min-height: 100vh;
+}
+
+.App h1 {
+    margin: 0;
+    padding: 1em 1em .3em;
+    font-family: 'Concert One', cursive;
+    text-decoration: underline;
+}
+
+#createTodo {
+    background-color: white;
+    width: 90%;
+    margin: 0 5%;
+    padding-bottom: 2em;
+    border: 2px solid lightblue;
+    border-radius: .4em;
+}
+
+#createTodo h2 {
+    margin-bottom: 0;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin: 1em;
+}
+
+#createTodo input {
+    border: 2px solid lightblue;
+    border-radius: .4em;
+    padding: .4em;
+    text-align: right;
+}
+
+#todoText {
+    width: 80%;
+    text-align: center;
+    margin: 0 .5em .5em .5em;
+}
+
+#toggleFormDisplay {
+    background-color: white;
+    border: none;
+}
+
+.App select {
+    padding: 0.5em;
+    margin: 1em;
 }
 
 #inputTagList {
     list-style: none;
     display: flex;
+    padding: 0;
+    margin: 0;
     flex-direction: row;
-    justify-content: center;
+    flex-wrap: wrap;
+    justify-content: left;
 }
 
-#inputTagList li {
-    padding: .3em;
+.tempTag {
+    padding: .3em .7em .3em .2em;
+    margin: .2em;
+    background-color: lightblue;
+    border-radius: 1em;
+}
+
+.deleteTag {
+    border: none;
+    background: lightblue;
+    margin-right: .2em;
 }
 
 #listContainer {
     list-style: none;
+    padding: 0;
 }
 
-#listContainer li {
+.todoItem {
+    background-color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     padding: .5em;
+    margin: 1em;
+    border-top: 6px solid lightblue;
+    border-radius: .4em;
+}
+
+.todoItem span, .todoItem input {
+    flex-grow: 2;
+}
+
+.dragTodo {
+    border: none;
+    background-color: white;
 }

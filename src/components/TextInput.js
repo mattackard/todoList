@@ -39,19 +39,43 @@ const TextInput = ({submitTodo}) => {
 
     return (
         <form id="createTodo" onSubmit={handleSubmit}>
-            <input id="todoText" type="text" ref={todo} placeholder={currentPlaceholder} />
+            <h2>What do you have to do?</h2>
+            <div className="row">
+                <input id="todoText" type="text" ref={todo} placeholder={currentPlaceholder} />
+                <button id="toggleFormDisplay">▼</button>
+            </div>
+            <div className="row">
+                <label>Deadline : </label>
+                <input id="inputDeadline" type="date" />
+            </div>
+            <div className="row">
+                <input id="tagInput" type="text" placeholder="Add tags" />
+                <button>Add Tag</button>
+            </div>
+            <div className="row">
+                <ul id="inputTagList" ref={tags}> 
+                    {/* tags should have their own component with bubble, x button for delete */}
+                    <li className="tempTag">
+                        <button className="deleteTag">✖</button>
+                        Tags
+                    </li>
+                    <li className="tempTag">
+                        <button className="deleteTag">✖</button>
+                        Should
+                    </li>
+                    <li className="tempTag">
+                        <button className="deleteTag">✖</button>
+                        Display
+                    </li>
+                    <li className="tempTag">
+                        <button className="deleteTag">✖</button>
+                        Here
+                    </li>
+                </ul>
+            </div>
+            
+            
             <button type="submit">Submit</button>
-            <input id="tagInput" type="text" placeholder="Add tags" />
-            <button>Add Tag</button>
-            <ul id="inputTagList" ref={tags}> 
-                {/* tags should have their own component with bubble, x button for delete */}
-                <li value="Tags">Tags</li>
-                <li value="Should">Should</li>
-                <li value="Display">Display</li>
-                <li value="Here">Here</li>
-            </ul>
-            <label htmlFor="inputDeadline">Deadline: </label>
-            <input id="inputDeadline" type="date" />
         </form>
     );
 }

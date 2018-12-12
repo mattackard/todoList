@@ -11,7 +11,9 @@ const TodoText = (props) => {
         );
     } 
     else {
-        return props.children;
+        return (
+            <span>{props.children}</span>
+        );
     }
 }
 
