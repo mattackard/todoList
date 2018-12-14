@@ -41,14 +41,10 @@ class App extends Component {
   };
 
   //adds a todo list item to the list
-  submitTodo = (todoText, tagArray) => {    
+  submitTodo = (newTodo) => {    
     this.setState({
       todo: [
-        {
-          text: todoText,
-          isEditing: false,
-          tags: tagArray
-        },
+        newTodo,
         ...this.state.todo
       ]
     });
