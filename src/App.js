@@ -22,18 +22,7 @@ class App extends Component {
   // ]
 
   state = {
-    todo: [
-      {
-        text: 'Here is list item 1',
-        isEditing: false,
-        tags: []
-      },
-      {
-        text: 'Do this next',
-        isEditing: false,
-        tags: []
-      }
-    ],
+    todo: [ ],
     filterArray: [
       'Complete'
     ],
@@ -41,7 +30,7 @@ class App extends Component {
   };
 
   //adds a todo list item to the list
-  submitTodo = (newTodo) => {    
+  submitTodo = (newTodo) => {   
     this.setState({
       todo: [
         newTodo,
@@ -180,7 +169,7 @@ class App extends Component {
         <h1>Todo List</h1>
 
         {/* main todo input form */}
-        <TextInput id="newTodoForm" submitTodo={this.submitTodo} />
+        <TextInput id="newTodoForm" submitTodo={this.submitTodo} onKeyPress={this.onKeyPress} />
 
         {/* filter menu for searching based on tags/complete */}
         <Filters id="filterDropdown" setFilter={this.setFilter} filterList={this.state.filterArray} />
