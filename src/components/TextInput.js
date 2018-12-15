@@ -39,13 +39,13 @@ export default class TextInput extends Component {
         }
     }
 
+    //picks a new random placeholder text for the main text input field
     changePlaceholder = () => {
         return placeholders[Math.floor(Math.random() * placeholders.length)];
     }
 
     handleSubmit = (e) => {
         e.preventDefault();
-        console.log(this.state.newTodo);
 
         //submit the todo item with text and tags from state
         this.props.submitTodo(this.state.newTodo);
@@ -70,7 +70,11 @@ export default class TextInput extends Component {
     //adds the text in the tag input to state
     addTag = () => {
         let newTag = document.getElementById('tagInput');
+
+        //remove whitespace from tag before comparing to current tag list
         newTag.value = newTag.value.trim();
+
+        //adds the tag if it doesn't already exist
         if (!this.state.newTodo.tags.includes(newTag.value)) {
             this.setState({
                 newTodo: {
@@ -87,23 +91,31 @@ export default class TextInput extends Component {
             alert('This tag already exists');
             newTag.value = '';
         }
+
+        //refocuses on the input if the add tag button is clicked
         newTag.focus();
     }
 
     //removes the text in the tag input to state
-    removeTag = (tagIndex) => {
-        this.setState({
-            newTodo: {
-                ...this.state.newTodo,
-                tags: [
-                    ...this.state.newTodo.tags.splice(0, tagIndex),
-                    ...this.state.newTodo.tags.splice(tagIndex + 1)
-                ]
-            }
+    removeTag = (e, tagIndex) => {
+        //adds class that runs scale-out animation
+        e.target.parentNode.classList.add('scale-out-center');
 
-        });
+        //need to wait for animation to finish ~ .2 sec
+        setTimeout(() => {
+            this.setState({
+                newTodo: {
+                    ...this.state.newTodo,
+                    tags: [
+                        ...this.state.newTodo.tags.slice(0, tagIndex),
+                        ...this.state.newTodo.tags.slice(tagIndex + 1)
+                    ]
+                }
+            });
+        }, 200)
     }
 
+    //saves the dealine for newTodo into state
     setDeadline = (e) => {
         this.setState({
             newTodo: {
@@ -134,8 +146,8 @@ export default class TextInput extends Component {
                 </div>
                 <div className="row">
                     <ul id="inputTagList"> 
-                        {/* tags should have their own component with bubble, x button for delete */}
                         {
+                            //populates the tag ul with all tags in current state
                             this.state.newTodo.tags.map((tagName, index) => {
                                 return (
                                     <Tag key={tagName} tagName={tagName} index={index} removeTag={this.removeTag} />

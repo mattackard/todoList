@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 
 const Tag = (props) => {
     return (
-        <li className="tempTag">
-            <button className="deleteTag" type="button" onClick={() => props.removeTag(props.index)}>✖</button>
+        <li className="tempTag scale-in-center">
+            <button className="deleteTag" type="button" onClick={(e) => props.removeTag(e, props.index)}>✖</button>
             {props.tagName}
         </li>
     );

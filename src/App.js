@@ -33,8 +33,8 @@ class App extends Component {
   submitTodo = (newTodo) => {   
     this.setState({
       todo: [
-        newTodo,
-        ...this.state.todo
+        ...this.state.todo,
+        newTodo
       ]
     });
   }
@@ -70,12 +70,20 @@ class App extends Component {
   }
 
   //removes a todo list item from the list
-  deleteTodo = (index) => {         
-    let newState = this.state.todo;
-    newState.splice(index, 1);
-    this.setState({
-        todo: newState
-    });
+  deleteTodo = (e, index) => {
+    //get the todo item element and add slide-out-right class   
+    //class is being added to more than 1 list item???
+    //e.target.parentNode.classList.add('scale-out-center');  
+
+    //wait for the animation to finish, then remove todo from state
+    setTimeout(() => {
+      this.setState({
+        todo: [
+          ...this.state.todo.slice(0, index),
+          ...this.state.todo.slice(index + 1)
+        ]
+      });
+    }, 0);
   }
 
   //remove tag

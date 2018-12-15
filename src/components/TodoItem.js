@@ -26,8 +26,8 @@ const TodoItem = ({
     }
 
     return (
-        <li className="todoItem">
-        <button className="dragTodo">|||</button>
+        <li className="todoItem scale-in-center">
+            <button className="dragTodo">|||</button>
             <TodoText 
                 edit={isEditing} 
                 onKeyPress={e => onKeyPress(e, 13, index, 'isEditing', toggleBool)} 
@@ -36,7 +36,7 @@ const TodoItem = ({
             </TodoText>
             <input type="checkbox" onChange={completeToggle} checked={tags.includes('Complete')} />
             <button onClick={() => toggleBool(index, 'isEditing')}>{isEditing ? "Save" : "Edit"}</button>
-            <button onClick={() => deleteTodo(index)}>Delete</button>
+            <button onClick={(e) => deleteTodo(e, index)}>Delete</button>
         </li>
     );
 }
