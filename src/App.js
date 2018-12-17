@@ -23,18 +23,26 @@ class App extends Component {
 
   state = {
     todo: [ ],
-    filterArray: [
-      'Complete'
-    ],
+    filterArray: [ 'Complete' ],
     currentFilter: ''
   };
 
   //adds a todo list item to the list
-  submitTodo = (newTodo) => {   
+  submitTodo = (newTodo) => {
+    let tagsToAdd = [];
+    newTodo.tags.forEach(tag => {
+      if (!this.state.filterArray.includes(tag)) {
+        tagsToAdd.push(tag);
+      }
+    });  
     this.setState({
       todo: [
         ...this.state.todo,
         newTodo
+      ],
+      filterArray: [
+        ...this.state.filterArray,
+        ...tagsToAdd
       ]
     });
   }
@@ -70,21 +78,35 @@ class App extends Component {
   }
 
   //removes a todo list item from the list
-  deleteTodo = (e, index) => {
+  deleteTodo = (e, indexToDelete) => {
     //get the todo item element and add slide-out-right class   
-    //class is being added to more than 1 list item???
     let target = e.target.parentNode;
-    target.classList.add('slide-out-right');  
+    target.classList.add('slide-out-right'); 
 
-    //wait for the animation to finish, then remove todo from state
+    //remove tags not used by any other todo
+    let newFilterArray = [];
+    this.state.todo.forEach((todo, index) => {
+      if (index !== indexToDelete) {
+        todo.tags.forEach(tag => {
+          newFilterArray.push(tag);
+        })
+      }
+    });
+    //remove duplicate tags
+    newFilterArray = Array.from(new Set(newFilterArray));
+    //replace the always present 'Complete' tag
+    newFilterArray.unshift('Complete');
+
+    //wait for the animation to finish, then remove todo from state and adjust filter tags
     setTimeout(() => {
       //need to remove the scale-out and scale-in so the next list item doesn't animate 
       target.classList.remove('slide-out-right', 'scale-in-center');
       this.setState({
         todo: [
-          ...this.state.todo.slice(0, index),
-          ...this.state.todo.slice(index + 1)
-        ]
+          ...this.state.todo.slice(0, indexToDelete),
+          ...this.state.todo.slice(indexToDelete + 1)
+        ],
+        filterArray: newFilterArray
       });
     }, 400);
   }
