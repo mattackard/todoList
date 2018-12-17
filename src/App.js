@@ -73,17 +73,20 @@ class App extends Component {
   deleteTodo = (e, index) => {
     //get the todo item element and add slide-out-right class   
     //class is being added to more than 1 list item???
-    //e.target.parentNode.classList.add('scale-out-center');  
+    let target = e.target.parentNode;
+    target.classList.add('slide-out-right');  
 
     //wait for the animation to finish, then remove todo from state
     setTimeout(() => {
+      //need to remove the scale-out and scale-in so the next list item doesn't animate 
+      target.classList.remove('slide-out-right', 'scale-in-center');
       this.setState({
         todo: [
           ...this.state.todo.slice(0, index),
           ...this.state.todo.slice(index + 1)
         ]
       });
-    }, 0);
+    }, 400);
   }
 
   //remove tag
