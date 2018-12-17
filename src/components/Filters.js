@@ -10,6 +10,7 @@ const Filters = ({ setFilter, filterList }) => {
         <select value="Filters" onChange={e => setFilter(e.target.value)}>
             <option disabled hidden>Filters</option>
             <option>Clear Filters</option>
+            <option>Complete</option>
             {
                 filterList.map((filter, index) => (
                     <option key={filter} index={index}>{filter}</option>

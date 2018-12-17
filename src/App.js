@@ -94,8 +94,6 @@ class App extends Component {
     });
     //remove duplicate tags
     newFilterArray = Array.from(new Set(newFilterArray));
-    //replace the always present 'Complete' tag
-    newFilterArray.unshift('Complete');
 
     //wait for the animation to finish, then remove todo from state and adjust filter tags
     setTimeout(() => {
