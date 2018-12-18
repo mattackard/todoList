@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import update from 'immutability-helper';
 import './App.scss';
 
 import TodoItem from './components/TodoItem';
@@ -196,6 +197,21 @@ class App extends Component {
     }
   }
 
+  //react-dnd function to swap todo item positions
+  moveTodo = (dragIndex, hoverIndex) => {
+		const { todo } = this.state.todo;
+		const dragTodo = todo[dragIndex];
+
+    //using immutability-helper's update function
+		this.setState(
+      update(this.state.todo, {
+        todo: {
+          $splice: [[dragIndex, 1], [hoverIndex, 0, dragTodo]],
+        }
+      })
+    );
+	}
+
   render() {
     return (
       <div className="App">
@@ -225,6 +241,7 @@ class App extends Component {
                     deleteTodo={this.deleteTodo} 
                     setTodoText={this.setTodoTextAt}
                     onKeyPress={this.onKeyPress}
+                    moveTodo={this.moveTodo}
                   /> );
                 }
                 else {
@@ -244,6 +261,7 @@ class App extends Component {
                   deleteTodo={this.deleteTodo} 
                   setTodoText={this.setTodoTextAt}
                   onKeyPress={this.onKeyPress}
+                  moveTodo={this.moveTodo}
                 /> );
               }
             })
