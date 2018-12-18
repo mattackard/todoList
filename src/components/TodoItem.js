@@ -27,16 +27,17 @@ const TodoItem = ({
 
     return (
         <li className="todoItem scale-in-center">
-            <button className="dragTodo">|||</button>
+            <button className="dragTodo icon"><img src="/img/drag.svg" alt="Drag todo item" /></button>
             <TodoText 
                 edit={isEditing} 
                 onKeyPress={e => onKeyPress(e, 13, index, 'isEditing', toggleBool)} 
                 updateText={e => setTodoText(index, e.target.value)} 
                 >{text}
             </TodoText>
+            <img src="/img/check-mark.svg" alt="checkbox for completion" />
             <input type="checkbox" onChange={completeToggle} checked={tags.includes('Complete')} />
-            <button onClick={() => toggleBool(index, 'isEditing')}>{isEditing ? "Save" : "Edit"}</button>
-            <button onClick={(e) => deleteTodo(e, index)}>Delete</button>
+            <button className="icon" onClick={() => toggleBool(index, 'isEditing')}>{isEditing ? <img src="/img/save.svg" alt="Save changes" /> : <img src="/img/pencil.svg" alt="Edit to-do" />}</button>
+            <button className="icon" onClick={(e) => deleteTodo(e, index)}><img src="/img/trash-can.svg" alt="delete todo item" /></button>
         </li>
     );
 }

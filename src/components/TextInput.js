@@ -134,11 +134,11 @@ export default class TextInput extends Component {
                 <h2>What do you have to do?</h2>
                 <div className="row">
                     <input id="todoText" type="text" placeholder={currentPlaceholder} onChange={this.updateText} value={this.state.newTodo.text} onKeyDown={(e) => this.onKeyPress(e, 13, e, null, this.handleSubmit)} />
-                    <button id="toggleFormDisplay" type="button">▼</button>
+                    <button id="toggleFormDisplay" className="icon" type="button"><img src="/img/arrow.svg" alt="Expand form field" /></button>
                 </div>
                 <div className="row">
-                    <label>Deadline : </label>
                     <input id="inputDeadline" type="date" onChange={this.setDeadline} value={this.state.newTodo.deadline} />
+                    <img src="/img/calendar.svg" alt="Calendar icon" />
                 </div>
                 <div className="row">
                     <input id="tagInput" type="text" placeholder="Add tags" onKeyDown={(e) => this.onKeyPress(e, 13, null, null, this.addTag)} />
