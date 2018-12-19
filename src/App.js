@@ -80,6 +80,7 @@ class App extends Component {
 
   //removes a todo list item from the list
   deleteTodo = (e, indexToDelete) => {
+
     //get the todo item element and add slide-out-right class   
     let target = e.target.parentNode;
     target.classList.add('slide-out-right'); 
@@ -93,13 +94,16 @@ class App extends Component {
         })
       }
     });
+
     //remove duplicate tags
     newFilterArray = Array.from(new Set(newFilterArray));
+
     //replace the always present 'Complete' tag
     newFilterArray.unshift('Complete');
 
     //wait for the animation to finish, then remove todo from state and adjust filter tags
     setTimeout(() => {
+
       //need to remove the scale-out and scale-in so the next list item doesn't animate 
       target.classList.remove('slide-out-right', 'scale-in-center');
       this.setState({
@@ -112,7 +116,7 @@ class App extends Component {
     }, 400);
   }
 
-  //remove tag
+  //removes a given tag if it is present
   removeTag = (indexToChange, tag) => {
     if (this.state.todo[indexToChange].tags.includes(tag)) {
       this.setState({
