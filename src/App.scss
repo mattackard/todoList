@@ -12,6 +12,7 @@ html, body {
     min-width: 100vw;
     min-height: 100vh;
     font-family: $font-stack-body;
+    overflow: hidden;
 }
 
 .App {
@@ -116,6 +117,9 @@ html, body {
 .dragTodo {
     border: none;
     background-color: $color-content-bg;
+    :hover {
+        cursor: move;
+    }
 }
 
 .icon {

@@ -6,6 +6,10 @@ import TodoItem from './components/TodoItem';
 import TextInput from './components/TextInput';
 import Filters from './components/Filters';
 
+//react dnd imports
+import { DragDropContext } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
+
 class App extends Component {
 
   //todo sample --- replace with empty array later
@@ -203,12 +207,12 @@ class App extends Component {
 
   //react-dnd function to swap todo item positions
   moveTodo = (dragIndex, hoverIndex) => {
-		const { todo } = this.state.todo;
+		const todo = this.state.todo;
 		const dragTodo = todo[dragIndex];
 
     //using immutability-helper's update function
 		this.setState(
-      update(this.state.todo, {
+      update(this.state, {
         todo: {
           $splice: [[dragIndex, 1], [hoverIndex, 0, dragTodo]],
         }
@@ -276,4 +280,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default DragDropContext(HTML5Backend)(App);
