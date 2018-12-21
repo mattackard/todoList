@@ -75,9 +75,11 @@ class TodoItem extends Component {
 
     static propTypes = {
         index: PropTypes.number.isRequired,
+        id: PropTypes.string.isRequired,
         text: PropTypes.string,
         tags: PropTypes.arrayOf(PropTypes.string),
         isEditing: PropTypes.bool.isRequired,
+        firstLoad: PropTypes.bool.isRequired,
         isDragging: PropTypes.bool.isRequired,
         addTag: PropTypes.func.isRequired,
         removeTag: PropTypes.func.isRequired,
@@ -85,6 +87,23 @@ class TodoItem extends Component {
         deleteTodo: PropTypes.func.isRequired,
         setTodoText: PropTypes.func.isRequired,
         moveTodo: PropTypes.func.isRequired
+    }
+
+    //creates a reference to the DOMNode for use when mounted
+    setListRef = element => {
+        this.listRef = element;
+    };
+
+    //removes the scale-in animation class after the animation finishes
+    //this prevents the animation from replaying when dragging the items around
+    componentDidMount() {
+        console.log(this.props.firstLoad);
+        if (this.props.firstLoad) {
+            setTimeout(() => {
+                this.listRef.classList.remove('scale-in-center');
+                this.props.toggleBool(this.props.index, 'firstLoad');
+            }, 500);
+        }
     }
 
     render() {
@@ -102,21 +121,29 @@ class TodoItem extends Component {
                 connectDragSource,
                 connectDropTarget } = this.props;
 
-        const completeToggle = () => {
+        const completeToggle = (e) => {
             if (tags.includes('Complete')) {
-                removeTag(index, 'Complete')
+                removeTag(index, 'Complete');
+                if (e.target.classList.contains('fillCheckbox')) {
+                    e.target.classList.remove('fillCheckbox');
+                }
+                e.target.classList.add('emptyCheckbox');
             }
             else {
                 addTag(index, 'Complete');
+                if (e.target.classList.contains('emptyCheckbox')) {
+                    e.target.classList.remove('emptyCheckbox');
+                }
+                e.target.classList.add('fillCheckbox');
             }
         }
 
-        //changes to isDragging don't show in list style
+        //sets the opacity to 0 
         const opacity = isDragging ? 0 : 1;
 
         return connectDragSource(
             connectDropTarget( 
-                <li className="todoItem scale-in-center" style={{ opacity }}>
+                <li className="todoItem scale-in-center" ref={this.setListRef} style={{ opacity }}>
                     <button className="dragTodo icon"><img src="/img/drag.svg" alt="Drag todo item" /></button>
                     <TodoText 
                         edit={isEditing} 
@@ -124,8 +151,8 @@ class TodoItem extends Component {
                         updateText={e => setTodoText(index, e.target.value)} 
                         >{text}
                     </TodoText>
-                    <img src="/img/check-mark.svg" alt="checkbox for completion" />
-                    <input type="checkbox" onChange={completeToggle} checked={tags.includes('Complete')} />
+                    <svg className="checkbox" onClick={completeToggle} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M20 12.194v9.806h-20v-20h18.272l-1.951 2h-14.321v16h16v-5.768l2-2.038zm.904-10.027l-9.404 9.639-4.405-4.176-3.095 3.097 7.5 7.273 12.5-12.737-3.096-3.096z" /></svg>
+                    {/* <input type="checkbox" checked={tags.includes('Complete')} /> */}
                     <span className="icon" onClick={() => toggleBool(index, 'isEditing')}>{isEditing ? <img src="/img/save.svg" alt="Save changes" /> : <img src="/img/pencil.svg" alt="Edit to-do" />}</span>
                     <img className="icon" onClick={(e) => deleteTodo(e, index)} src="/img/trash-can.svg" alt="delete todo item" />
                 </li>

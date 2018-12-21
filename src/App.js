@@ -238,11 +238,13 @@ class App extends Component {
               if (this.state.currentFilter) {
                 if (td.tags.includes(this.state.currentFilter)) {
                   return ( <TodoItem 
-                    key={index} 
+                    key={td.text} 
+                    id={td.text}
                     index={index}
                     text={td.text} 
                     tags={td.tags} 
                     isEditing={td.isEditing}
+                    firstLoad={td.firstLoad}
                     addTag={this.addTag} 
                     removeTag={this.removeTag}
                     toggleBool={this.toggleTodoBool} 
@@ -258,11 +260,13 @@ class App extends Component {
               }
               else {
                 return ( <TodoItem 
-                  key={index} 
+                  key={td.text} 
+                  id={td.text}
                   index={index}
                   text={td.text} 
                   tags={td.tags} 
                   isEditing={td.isEditing}
+                  firstLoad={td.firstLoad}
                   addTag={this.addTag} 
                   removeTag={this.removeTag}
                   toggleBool={this.toggleTodoBool} 
