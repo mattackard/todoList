@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
+import update from 'immutability-helper';
 import './App.scss';
 
 import TodoItem from './components/TodoItem';
 import TextInput from './components/TextInput';
 import Filters from './components/Filters';
+
+//react dnd imports
+import { DragDropContext } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
 
 class App extends Component {
 
@@ -79,6 +84,7 @@ class App extends Component {
 
   //removes a todo list item from the list
   deleteTodo = (e, indexToDelete) => {
+
     //get the todo item element and add slide-out-right class   
     let target = e.target.parentNode;
     target.classList.add('slide-out-right'); 
@@ -92,13 +98,16 @@ class App extends Component {
         })
       }
     });
+
     //remove duplicate tags
     newFilterArray = Array.from(new Set(newFilterArray));
+
     //replace the always present 'Complete' tag
     newFilterArray.unshift('Complete');
 
     //wait for the animation to finish, then remove todo from state and adjust filter tags
     setTimeout(() => {
+
       //need to remove the scale-out and scale-in so the next list item doesn't animate 
       target.classList.remove('slide-out-right', 'scale-in-center');
       this.setState({
@@ -111,7 +120,7 @@ class App extends Component {
     }, 400);
   }
 
-  //remove tag
+  //removes a given tag if it is present
   removeTag = (indexToChange, tag) => {
     if (this.state.todo[indexToChange].tags.includes(tag)) {
       this.setState({
@@ -196,6 +205,21 @@ class App extends Component {
     }
   }
 
+  //react-dnd function to swap todo item positions
+  moveTodo = (dragIndex, hoverIndex) => {
+		const todo = this.state.todo;
+		const dragTodo = todo[dragIndex];
+
+    //using immutability-helper's update function
+		this.setState(
+      update(this.state, {
+        todo: {
+          $splice: [[dragIndex, 1], [hoverIndex, 0, dragTodo]],
+        }
+      })
+    );
+	}
+
   render() {
     return (
       <div className="App">
@@ -214,17 +238,20 @@ class App extends Component {
               if (this.state.currentFilter) {
                 if (td.tags.includes(this.state.currentFilter)) {
                   return ( <TodoItem 
-                    key={index} 
+                    key={td.text} 
+                    id={td.text}
                     index={index}
                     text={td.text} 
                     tags={td.tags} 
                     isEditing={td.isEditing}
+                    firstLoad={td.firstLoad}
                     addTag={this.addTag} 
                     removeTag={this.removeTag}
                     toggleBool={this.toggleTodoBool} 
                     deleteTodo={this.deleteTodo} 
                     setTodoText={this.setTodoTextAt}
                     onKeyPress={this.onKeyPress}
+                    moveTodo={this.moveTodo}
                   /> );
                 }
                 else {
@@ -233,17 +260,20 @@ class App extends Component {
               }
               else {
                 return ( <TodoItem 
-                  key={index} 
+                  key={td.text} 
+                  id={td.text}
                   index={index}
                   text={td.text} 
                   tags={td.tags} 
                   isEditing={td.isEditing}
+                  firstLoad={td.firstLoad}
                   addTag={this.addTag} 
                   removeTag={this.removeTag}
                   toggleBool={this.toggleTodoBool} 
                   deleteTodo={this.deleteTodo} 
                   setTodoText={this.setTodoTextAt}
                   onKeyPress={this.onKeyPress}
+                  moveTodo={this.moveTodo}
                 /> );
               }
             })
@@ -254,4 +284,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default DragDropContext(HTML5Backend)(App);

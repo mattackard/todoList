@@ -24,6 +24,7 @@ export default class TextInput extends Component {
         newTodo: {
             text: '',
             isEditing: false,
+            firstLoad: true,
             deadline: '',
             tags: [ ]
         }
@@ -34,6 +35,7 @@ export default class TextInput extends Component {
         newTodo: {
             text: '',
             isEditing: false,
+            firstLoad: true,
             deadline: '',
             tags: [ ]
         }
