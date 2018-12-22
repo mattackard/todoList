@@ -94,13 +94,11 @@ class TodoItem extends Component {
         this.listRef = element;
     };
 
-    //removes the scale-in animation class after the animation finishes
-    //this prevents the animation from replaying when dragging the items around
+    //sets firstLoad to false after the animation plays on first render
+    //this prevents the animation from replaying when dragging and editing
     componentDidMount() {
-        console.log(this.props.firstLoad);
         if (this.props.firstLoad) {
             setTimeout(() => {
-                this.listRef.classList.remove('scale-in-center');
                 this.props.toggleBool(this.props.index, 'firstLoad');
             }, 500);
         }
@@ -111,6 +109,7 @@ class TodoItem extends Component {
                 text, 
                 tags, 
                 isEditing,
+                firstLoad,
                 addTag, 
                 removeTag,
                 toggleBool,
@@ -143,7 +142,7 @@ class TodoItem extends Component {
 
         return connectDragSource(
             connectDropTarget( 
-                <li className="todoItem scale-in-center" ref={this.setListRef} style={{ opacity }}>
+                <li className={firstLoad ? "todoItem scale-in-center" : "todoItem"} ref={this.setListRef} style={{ opacity }}>
                     <button className="dragTodo icon"><img src="/img/drag.svg" alt="Drag todo item" /></button>
                     <TodoText 
                         edit={isEditing} 
