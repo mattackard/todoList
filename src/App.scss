@@ -117,7 +117,7 @@ html, body {
 .dragTodo {
     border: none;
     background-color: $color-content-bg;
-    :hover {
+    &:hover {
         cursor: move;
     }
 }

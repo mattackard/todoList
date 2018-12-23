@@ -21,6 +21,7 @@ export default class TextInput extends Component {
     };
 
     state = {
+        formDetails: false,
         newTodo: {
             text: '',
             isEditing: false,
@@ -32,6 +33,7 @@ export default class TextInput extends Component {
 
     //used to reset state after the form is submitted
     emptyState = {
+        formDetails: false,
         newTodo: {
             text: '',
             isEditing: false,
@@ -130,34 +132,54 @@ export default class TextInput extends Component {
     //duplicates the onKeyPress function to allow running function in this scope instead of app.js
     onKeyPress = this.props.onKeyPress;
 
+    //shows form details when expand button is clicked or input is focused
+    toggleFormDetails = (e) => {
+        if (e.type === 'click') {
+            this.setState({
+                formDetails: !this.state.formDetails
+            });
+        }
+        else {
+            this.setState({
+                formDetails: true
+            }); 
+        }
+    }
+
     render() {
         return (
             <form id="createTodo">
                 <h2>What do you have to do?</h2>
                 <div className="row">
-                    <input id="todoText" type="text" placeholder={currentPlaceholder} onChange={this.updateText} value={this.state.newTodo.text} onKeyDown={(e) => this.onKeyPress(e, 13, e, null, this.handleSubmit)} />
-                    <button id="toggleFormDisplay" className="icon" type="button"><img src="/img/arrow.svg" alt="Expand form field" /></button>
+                    <input id="todoText" type="text" placeholder={currentPlaceholder} onChange={this.updateText} value={this.state.newTodo.text} onKeyDown={(e) => this.onKeyPress(e, 13, e, null, this.handleSubmit)} onFocus={this.toggleFormDetails} />
+                    <button id="toggleFormDisplay" className="icon" onClick={this.toggleFormDetails} type="button"><img src="/img/arrow.svg" alt="Expand form field" /></button>
                 </div>
-                <div className="row">
-                    <input id="inputDeadline" type="date" onChange={this.setDeadline} value={this.state.newTodo.deadline} />
-                    <img src="/img/calendar.svg" alt="Calendar icon" />
-                </div>
-                <div className="row">
-                    <input id="tagInput" type="text" placeholder="Add tags" onKeyDown={(e) => this.onKeyPress(e, 13, null, null, this.addTag)} />
-                    <button type="button" onClick={this.addTag} >Add Tag</button>
-                </div>
-                <div className="row">
-                    <ul id="inputTagList"> 
-                        {
-                            //populates the tag ul with all tags in current state
-                            this.state.newTodo.tags.map((tagName, index) => {
-                                return (
-                                    <Tag key={tagName} tagName={tagName} index={index} removeTag={this.removeTag} />
-                                );
-                            })
-                        }
-                    </ul>
-                </div>
+                {
+                    //if formDetails is true, show the rest of the form fields, otherwise show nothing
+                    this.state.formDetails ?
+                        <div className="scale-in-center" >
+                            <div className="row">
+                                <input id="inputDeadline" type="date" onChange={this.setDeadline} value={this.state.newTodo.deadline} />
+                                <img src="/img/calendar.svg" alt="Calendar icon" />
+                            </div>
+                            <div className="row">
+                                <input id="tagInput" type="text" placeholder="Add tags" onKeyDown={(e) => this.onKeyPress(e, 13, null, null, this.addTag)} />
+                                <button type="button" onClick={this.addTag} >Add Tag</button>
+                            </div>
+                            <div className="row">
+                                <ul id="inputTagList"> 
+                                    {
+                                        //populates the tag ul with all tags in current state
+                                        this.state.newTodo.tags.map((tagName, index) => {
+                                            return (
+                                                <Tag key={tagName} tagName={tagName} index={index} removeTag={this.removeTag} />
+                                            );
+                                        })
+                                    }
+                                </ul>
+                            </div>
+                        </div> : ''
+                }
                 <button type="button" onClick={this.handleSubmit}>Submit</button>
             </form>
         );
