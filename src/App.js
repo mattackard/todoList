@@ -121,16 +121,16 @@ class App extends Component {
   }
 
   //removes a given tag if it is present
-  removeTag = (indexToChange, tag) => {
-    if (this.state.todo[indexToChange].tags.includes(tag)) {
+  removeTag = (e, tagIndex, indexToChange) => {
+    if (this.state.todo[indexToChange].tags[tagIndex] === e.target.nextSibling.textContent) {
       this.setState({
         todo: this.state.todo.map((todo, index) => {
           if (index === indexToChange) {
             return {
               ...todo,
               tags: [
-                ...todo.tags.splice(0, indexToChange),
-                ...todo.tags.splice(indexToChange + 1)
+                ...todo.tags.splice(0, tagIndex),
+                ...todo.tags.splice(tagIndex + 1)
               ]
             }
           }
@@ -243,6 +243,7 @@ class App extends Component {
                     index={index}
                     text={td.text} 
                     tags={td.tags} 
+                    deadline={td.deadline}
                     isEditing={td.isEditing}
                     firstLoad={td.firstLoad}
                     addTag={this.addTag} 
@@ -265,6 +266,7 @@ class App extends Component {
                   index={index}
                   text={td.text} 
                   tags={td.tags} 
+                  deadline={td.deadline}
                   isEditing={td.isEditing}
                   firstLoad={td.firstLoad}
                   addTag={this.addTag} 

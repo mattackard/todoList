@@ -170,9 +170,9 @@ export default class TextInput extends Component {
                                 <ul id="inputTagList"> 
                                     {
                                         //populates the tag ul with all tags in current state
-                                        this.state.newTodo.tags.map((tagName, index) => {
+                                        this.state.newTodo.tags.map((tagName, tagIndex) => {
                                             return (
-                                                <Tag key={tagName} tagName={tagName} index={index} removeTag={this.removeTag} />
+                                                <Tag key={tagName} tagName={tagName} tagIndex={tagIndex} removeTag={this.removeTag} />
                                             );
                                         })
                                     }

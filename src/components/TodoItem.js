@@ -9,6 +9,7 @@ import flow from 'lodash/flow';
 
 //component imports
 import TodoText from './TodoText';
+import Tag from './Tag';
 
 const todoSource = {
 	beginDrag(props) {
@@ -104,10 +105,18 @@ class TodoItem extends Component {
         }
     }
 
+    daysUntil = (date) => {
+        const oneDay = 24*60*60*1000;
+        const today = new Date();
+        const dueDate = new Date(date);
+        return Math.floor((dueDate.getTime() - today.getTime())/(oneDay)) + 2;
+    }
+
     render() {
         const { index, 
                 text, 
                 tags, 
+                deadline,
                 isEditing,
                 firstLoad,
                 addTag, 
@@ -150,10 +159,23 @@ class TodoItem extends Component {
                         updateText={e => setTodoText(index, e.target.value)} 
                         >{text}
                     </TodoText>
+                    {
+                        deadline && !tags.includes('Complete') ? <span className="dueDate" >Due in {this.daysUntil(deadline)} days</span> : null
+                    }
                     <svg className="checkbox" onClick={completeToggle} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M20 12.194v9.806h-20v-20h18.272l-1.951 2h-14.321v16h16v-5.768l2-2.038zm.904-10.027l-9.404 9.639-4.405-4.176-3.095 3.097 7.5 7.273 12.5-12.737-3.096-3.096z" /></svg>
                     {/* <input type="checkbox" checked={tags.includes('Complete')} /> */}
                     <span className="icon" onClick={() => toggleBool(index, 'isEditing')}>{isEditing ? <img src="/img/save.svg" alt="Save changes" /> : <img src="/img/pencil.svg" alt="Edit to-do" />}</span>
                     <img className="icon" onClick={(e) => deleteTodo(e, index)} src="/img/trash-can.svg" alt="delete todo item" />
+                    {
+                        isEditing ? 
+                        //populates the tag ul with all tags in current state
+                        tags.map((tagName, tagIndex) => {
+                            return (
+                                <Tag key={tagName} tagName={tagName} tagIndex={tagIndex} todoIndex={index} removeTag={removeTag} />
+                            );
+                        })
+                        : null
+                    }
                 </li>
             )
         );

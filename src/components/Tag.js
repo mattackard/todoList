@@ -3,16 +3,17 @@ import PropTypes from 'prop-types';
 
 const Tag = (props) => {
     return (
-        <li className="tempTag scale-in-center">
-            <button className="deleteTag" type="button" onClick={(e) => props.removeTag(e, props.index)}>✖</button>
+        <div className="tempTag scale-in-center">
+            <button className="deleteTag" type="button" onClick={(e) => props.removeTag(e, props.tagIndex, props.todoIndex)}>✖</button>
             {props.tagName}
-        </li>
+        </div>
     );
 }
 
 Tag.propTypes = {
     tagName: PropTypes.string,
-    index: PropTypes.number.isRequired,
+    tagIndex: PropTypes.number.isRequired,
+    todoIndex: PropTypes.number,
     removeTag: PropTypes.func.isRequired
 }
 
