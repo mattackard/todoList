@@ -86,7 +86,7 @@ class App extends Component {
   deleteTodo = (e, indexToDelete) => {
 
     //get the todo item element and add slide-out-right class   
-    let target = e.target.parentNode;
+    let target = e.target.parentNode.parentNode;
     target.classList.add('slide-out-right'); 
 
     //remove tags not used by any other todo
@@ -184,6 +184,20 @@ class App extends Component {
     }
   }
 
+  toggleTodoComplete = (indexToChange) => {
+    this.setState({
+      todo: this.state.todo.map((todo, index) => {
+        if (index === indexToChange) {
+          return {
+            ...todo,
+            isComplete: !todo.isComplete
+          }
+        }
+        return todo;
+      })
+    });
+  }
+
   //runs a function on a defined key press
   onKeyPress = (e, keyCode, index, param, func) => {
     if (e.keyCode === keyCode) {
@@ -235,48 +249,75 @@ class App extends Component {
         <ul id="listContainer">
           { 
             this.state.todo.map((td, index) => {
-              if (this.state.currentFilter) {
+              if (this.state.currentFilter === 'Complete') {
+                if (td.isComplete) {
+                  return <TodoItem 
+                            key={td.text} 
+                            id={td.text}
+                            index={index}
+                            text={td.text} 
+                            isComplete={td.isComplete}
+                            tags={td.tags} 
+                            deadline={td.deadline}
+                            isEditing={td.isEditing}
+                            firstLoad={td.firstLoad}
+                            toggleTodoComplete={this.toggleTodoComplete}
+                            addTag={this.addTag} 
+                            removeTag={this.removeTag}
+                            toggleBool={this.toggleTodoBool} 
+                            deleteTodo={this.deleteTodo} 
+                            setTodoText={this.setTodoTextAt}
+                            onKeyPress={this.onKeyPress}
+                            moveTodo={this.moveTodo} />;
+                }
+                else {
+                  return null;
+                }
+              }
+              else if (this.state.currentFilter) {
                 if (td.tags.includes(this.state.currentFilter)) {
-                  return ( <TodoItem 
-                    key={td.text} 
-                    id={td.text}
-                    index={index}
-                    text={td.text} 
-                    tags={td.tags} 
-                    deadline={td.deadline}
-                    isEditing={td.isEditing}
-                    firstLoad={td.firstLoad}
-                    addTag={this.addTag} 
-                    removeTag={this.removeTag}
-                    toggleBool={this.toggleTodoBool} 
-                    deleteTodo={this.deleteTodo} 
-                    setTodoText={this.setTodoTextAt}
-                    onKeyPress={this.onKeyPress}
-                    moveTodo={this.moveTodo}
-                  /> );
+                  return <TodoItem 
+                            key={td.text} 
+                            id={td.text}
+                            index={index}
+                            text={td.text} 
+                            isComplete={td.isComplete}
+                            tags={td.tags} 
+                            deadline={td.deadline}
+                            isEditing={td.isEditing}
+                            firstLoad={td.firstLoad}
+                            toggleTodoComplete={this.toggleTodoComplete}
+                            addTag={this.addTag} 
+                            removeTag={this.removeTag}
+                            toggleBool={this.toggleTodoBool} 
+                            deleteTodo={this.deleteTodo} 
+                            setTodoText={this.setTodoTextAt}
+                            onKeyPress={this.onKeyPress}
+                            moveTodo={this.moveTodo} />;
                 }
                 else {
                   return null;
                 }
               }
               else {
-                return ( <TodoItem 
-                  key={td.text} 
-                  id={td.text}
-                  index={index}
-                  text={td.text} 
-                  tags={td.tags} 
-                  deadline={td.deadline}
-                  isEditing={td.isEditing}
-                  firstLoad={td.firstLoad}
-                  addTag={this.addTag} 
-                  removeTag={this.removeTag}
-                  toggleBool={this.toggleTodoBool} 
-                  deleteTodo={this.deleteTodo} 
-                  setTodoText={this.setTodoTextAt}
-                  onKeyPress={this.onKeyPress}
-                  moveTodo={this.moveTodo}
-                /> );
+                return <TodoItem 
+                          key={td.text} 
+                          id={td.text}
+                          index={index}
+                          text={td.text} 
+                          isComplete={td.isComplete}
+                          tags={td.tags} 
+                          deadline={td.deadline}
+                          isEditing={td.isEditing}
+                          firstLoad={td.firstLoad}
+                          toggleTodoComplete={this.toggleTodoComplete}
+                          addTag={this.addTag} 
+                          removeTag={this.removeTag}
+                          toggleBool={this.toggleTodoBool} 
+                          deleteTodo={this.deleteTodo} 
+                          setTodoText={this.setTodoTextAt}
+                          onKeyPress={this.onKeyPress}
+                          moveTodo={this.moveTodo} />;
               }
             })
           }

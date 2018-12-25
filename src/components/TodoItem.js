@@ -78,8 +78,10 @@ class TodoItem extends Component {
         index: PropTypes.number.isRequired,
         id: PropTypes.string.isRequired,
         text: PropTypes.string,
+        isComplete: PropTypes.bool.isRequired,
         tags: PropTypes.arrayOf(PropTypes.string),
         isEditing: PropTypes.bool.isRequired,
+        toggleTodoComplete: PropTypes.func.isRequired,
         firstLoad: PropTypes.bool.isRequired,
         isDragging: PropTypes.bool.isRequired,
         addTag: PropTypes.func.isRequired,
@@ -109,17 +111,19 @@ class TodoItem extends Component {
         const oneDay = 24*60*60*1000;
         const today = new Date();
         const dueDate = new Date(date);
-        return Math.floor((dueDate.getTime() - today.getTime())/(oneDay)) + 2;
+        return Math.round((dueDate.getTime() - today.getTime())/(oneDay)) + 1;
     }
 
     render() {
         const { index, 
                 text, 
+                isComplete,
                 tags, 
                 deadline,
                 isEditing,
                 firstLoad,
-                addTag, 
+                toggleTodoComplete,
+                //addTag, 
                 removeTag,
                 toggleBool,
                 deleteTodo,
@@ -130,15 +134,15 @@ class TodoItem extends Component {
                 connectDropTarget } = this.props;
 
         const completeToggle = (e) => {
-            if (tags.includes('Complete')) {
-                removeTag(index, 'Complete');
+            if (isComplete) {
+                toggleTodoComplete(index);
                 if (e.target.classList.contains('fillCheckbox')) {
                     e.target.classList.remove('fillCheckbox');
                 }
                 e.target.classList.add('emptyCheckbox');
             }
             else {
-                addTag(index, 'Complete');
+                toggleTodoComplete(index);
                 if (e.target.classList.contains('emptyCheckbox')) {
                     e.target.classList.remove('emptyCheckbox');
                 }
@@ -160,12 +164,29 @@ class TodoItem extends Component {
                         >{text}
                     </TodoText>
                     {
-                        deadline && !tags.includes('Complete') ? <span className="dueDate" >Due in {this.daysUntil(deadline)} days</span> : null
+                        deadline && !isComplete ? <span className="dueDate" >Due in {this.daysUntil(deadline)} days</span> : null
                     }
-                    <svg className="checkbox" onClick={completeToggle} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M20 12.194v9.806h-20v-20h18.272l-1.951 2h-14.321v16h16v-5.768l2-2.038zm.904-10.027l-9.404 9.639-4.405-4.176-3.095 3.097 7.5 7.273 12.5-12.737-3.096-3.096z" /></svg>
+                    <svg className={isComplete ? "checkbox fillCheckbox" : "checkbox emptyCheckbox"} onClick={completeToggle} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <title>Mark Todo as Complete</title>
+                        <path d="M20 12.194v9.806h-20v-20h18.272l-1.951 2h-14.321v16h16v-5.768l2-2.038zm.904-10.027l-9.404 9.639-4.405-4.176-3.095 3.097 7.5 7.273 12.5-12.737-3.096-3.096z" />
+                    </svg>
                     {/* <input type="checkbox" checked={tags.includes('Complete')} /> */}
-                    <span className="icon" onClick={() => toggleBool(index, 'isEditing')}>{isEditing ? <img src="/img/save.svg" alt="Save changes" /> : <img src="/img/pencil.svg" alt="Edit to-do" />}</span>
-                    <img className="icon" onClick={(e) => deleteTodo(e, index)} src="/img/trash-can.svg" alt="delete todo item" />
+                    {
+                        isEditing ?
+                        <svg className="icon" onClick={() => toggleBool(index, 'isEditing')} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                            <title>Save changes</title>
+                            <path d="M13 3h2.996v5h-2.996v-5zm11 1v20h-24v-24h20l4 4zm-17 5h10v-7h-10v7zm15-4.171l-2.828-2.829h-.172v9h-14v-9h-3v20h20v-17.171zm-3 10.171h-14v1h14v-1zm0 2h-14v1h14v-1zm0 2h-14v1h14v-1z"/>
+                        </svg>
+                        :
+                        <svg className="icon" onClick={() => toggleBool(index, 'isEditing')} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                            <title>Edit todo list item</title>
+                            <path d="M18.363 8.464l1.433 1.431-12.67 12.669-7.125 1.436 1.439-7.127 12.665-12.668 1.431 1.431-12.255 12.224-.726 3.584 3.584-.723 12.224-12.257zm-.056-8.464l-2.815 2.817 5.691 5.692 2.817-2.821-5.693-5.688zm-12.318 18.718l11.313-11.316-.705-.707-11.313 11.314.705.709z"/>
+                        </svg>
+                    }
+                    <svg className="icon" onClick={(e) => deleteTodo(e, index)} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <title>Delete this Todo Item</title>
+                        <path d="M16 9v4.501c-.748.313-1.424.765-2 1.319v-5.82c0-.552.447-1 1-1s1 .448 1 1zm-4 0v10c0 .552-.447 1-1 1s-1-.448-1-1v-10c0-.552.447-1 1-1s1 .448 1 1zm1.82 15h-11.82v-18h2v16h8.502c.312.749.765 1.424 1.318 2zm-6.82-16c.553 0 1 .448 1 1v10c0 .552-.447 1-1 1s-1-.448-1-1v-10c0-.552.447-1 1-1zm14-4h-20v-2h5.711c.9 0 1.631-1.099 1.631-2h5.316c0 .901.73 2 1.631 2h5.711v2zm-1 2v7.182c-.482-.115-.983-.182-1.5-.182l-.5.025v-7.025h2zm3 13.5c0 2.485-2.017 4.5-4.5 4.5s-4.5-2.015-4.5-4.5 2.017-4.5 4.5-4.5 4.5 2.015 4.5 4.5zm-3.086-2.122l-1.414 1.414-1.414-1.414-.707.708 1.414 1.414-1.414 1.414.707.708 1.414-1.414 1.414 1.414.708-.708-1.414-1.414 1.414-1.414-.708-.708z"/>
+                    </svg>
                     {
                         isEditing ? 
                         //populates the tag ul with all tags in current state
@@ -181,6 +202,7 @@ class TodoItem extends Component {
         );
     }
 }
+
 
 // export default TodoItem;
 export default flow([

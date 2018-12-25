@@ -125,9 +125,12 @@ html, body {
 .icon {
     border: none;
     background-color: $color-content-bg;
+    width: 36px;
+    justify-content: center;
 }
 
 .checkbox {
+    color: #aaa;
     fill: #aaa;
 }
 
@@ -168,18 +171,22 @@ html, body {
 }
 @keyframes fill-checkbox {
     0% {
-        fill:#aaa;
+        fill: currentColor;
+        color: currentColor;
     }
     100% {
         fill:green;
+        color: green;
     }
 }
 @keyframes empty-checkbox {
     0% {
-        fill:green;
+        fill: currentColor;
+        color: currentColor;
     }
     100% {
         fill:#aaa;
+        color: #aaa;
     }
 }
   
