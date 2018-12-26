@@ -32,6 +32,9 @@ class App extends Component {
     currentFilter: ''
   };
 
+  //ref used when blurring the background when modal is present
+  appNode = React.createRef();
+
   //adds a todo list item to the list
   submitTodo = (newTodo) => {
     let tagsToAdd = [];
@@ -232,11 +235,16 @@ class App extends Component {
         }
       })
     );
-	}
+  }
+  
+  //blurs the app div -- all children blur unless blur is cleared in css
+  toggleAppBlur = () => {
+    this.appNode.current.classList.toggle('blur')
+  }
 
   render() {
     return (
-      <div className="App">
+      <div className="App" ref={this.appNode}>
         <h1>Todo List</h1>
 
         {/* main todo input form */}
@@ -268,6 +276,8 @@ class App extends Component {
                             deleteTodo={this.deleteTodo} 
                             setTodoText={this.setTodoTextAt}
                             onKeyPress={this.onKeyPress}
+                            submitTodo={this.submitTodo}
+                            blurApp={this.blurApp}
                             moveTodo={this.moveTodo} />;
                 }
                 else {
@@ -293,6 +303,8 @@ class App extends Component {
                             deleteTodo={this.deleteTodo} 
                             setTodoText={this.setTodoTextAt}
                             onKeyPress={this.onKeyPress}
+                            submitTodo={this.submitTodo}
+                            blurApp={this.blurApp}
                             moveTodo={this.moveTodo} />;
                 }
                 else {
@@ -317,6 +329,8 @@ class App extends Component {
                           deleteTodo={this.deleteTodo} 
                           setTodoText={this.setTodoTextAt}
                           onKeyPress={this.onKeyPress}
+                          submitTodo={this.submitTodo}
+                          toggleAppBlur={this.toggleAppBlur}
                           moveTodo={this.moveTodo} />;
               }
             })
