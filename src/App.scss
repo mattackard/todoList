@@ -6,6 +6,11 @@ $color-page-bg: tomato;
 $color-content-bg: white;
 $color-accent: lightblue;
 
+@mixin border {
+    border: 2px solid $color-accent;
+    border-radius: .4em;
+}
+
 html, body {
     margin: 0;
     padding: 0;
@@ -27,17 +32,12 @@ html, body {
     font-family: $font-stack-logo;
 }
 
-.blur {
-    filter: blur(4px);
-}
-
 #createTodo {
     background-color: $color-content-bg;
     width: 90%;
     margin: 0 5%;
     padding-bottom: 2em;
-    border: 2px solid $color-accent;
-    border-radius: .4em;
+    @include border;
 }
 
 #createTodo h2 {
@@ -52,8 +52,7 @@ html, body {
 }
 
 #createTodo input {
-    border: 2px solid $color-accent;
-    border-radius: .4em;
+    @include border;
     padding: .4em;
     text-align: right;
 }
@@ -143,7 +142,11 @@ html, body {
     top: 20%;
     left: 5%;
     width: 90%;
+    padding: 0;
     max-height: 60%;
+    box-shadow: 0 0 100px 30px #aaa;
+    background-color: white;
+    @include border;
 }
 
 /**

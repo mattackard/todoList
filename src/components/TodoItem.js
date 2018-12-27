@@ -90,8 +90,8 @@ class TodoItem extends Component {
         deleteTodo: PropTypes.func.isRequired,
         setTodoText: PropTypes.func.isRequired,
         submitTodo: PropTypes.func.isRequired,
-        toggleAppBlur: PropTypes.func.isRequired,
-        moveTodo: PropTypes.func.isRequired
+        moveTodo: PropTypes.func.isRequired,
+        updateDeadline: PropTypes.func.isRequired
     }
 
     //creates a reference to the DOMNode for use when mounted
@@ -125,32 +125,32 @@ class TodoItem extends Component {
                 isEditing,
                 firstLoad,
                 toggleTodoComplete,
-                //addTag, 
+                addTag, 
                 removeTag,
                 toggleBool,
                 deleteTodo,
                 setTodoText,
                 onKeyPress,
                 submitTodo,
-                toggleAppBlur,
+                updateDeadline,
                 isDragging,
                 connectDragSource,
                 connectDropTarget } = this.props;
 
         const completeToggle = (e) => {
             if (isComplete) {
-                toggleTodoComplete(index);
                 if (e.target.classList.contains('fillCheckbox')) {
                     e.target.classList.remove('fillCheckbox');
                 }
                 e.target.classList.add('emptyCheckbox');
+                toggleTodoComplete(index);
             }
             else {
-                toggleTodoComplete(index);
                 if (e.target.classList.contains('emptyCheckbox')) {
                     e.target.classList.remove('emptyCheckbox');
                 }
                 e.target.classList.add('fillCheckbox');
+                toggleTodoComplete(index);
             }
         }
 
@@ -165,13 +165,15 @@ class TodoItem extends Component {
                         isEditing ?
                             <EditModal
                                 index={index}
+                                deadline={deadline}
                                 tags={tags}
                                 toggleBool={toggleBool}
-                                onKeyPress={e => onKeyPress(e, 13, index, 'isEditing', toggleBool)} 
+                                onKeyPress={onKeyPress} 
                                 updateText={e => setTodoText(index, e.target.value)} 
-                                toggleAppBlur={toggleAppBlur}
                                 submitTodo={submitTodo}
                                 removeTag={removeTag}
+                                addTag={addTag}
+                                updateDeadline={updateDeadline}
                             >{text}</EditModal>
                         :
                             <TodoText 

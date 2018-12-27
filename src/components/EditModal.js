@@ -5,13 +5,7 @@ import Tag from './Tag';
 
 class EditModal extends Component {
 
-    componentDidMount() {
-        this.props.toggleAppBlur();
-    }
-
-    componentWillUnmount() {
-        this.props.toggleAppBlur();
-    }
+    newText = React.createRef();
 
     render() {
 
@@ -19,34 +13,34 @@ class EditModal extends Component {
             // text, 
             // isComplete,
             tags, 
-            // deadline,
+            deadline,
             // isEditing,
             // firstLoad,
             // toggleTodoComplete,
-            //addTag, 
+            addTag, 
             removeTag,
             toggleBool,
+            updateDeadline,
             // deleteTodo,
             // setTodoText,
-            // onKeyPress,
+            onKeyPress,
             //submitTodo,
-            //toggleAppBlur,
             updateText } = this.props; 
 
         return (
             <div id="editModal">
-                <form id="createTodo">
+                <form>
                     <div className="row">
-                        <input id="todoText" type="text" onChange={updateText} value={this.props.children} autoFocus />
+                        <input id="todoText" type="text" ref={this.newText} onChange={updateText} value={this.props.children} autoFocus />
                     </div>
                     <div className="scale-in-center" >
                         <div className="row">
-                            <input id="inputDeadline" type="date" />
+                            <input id="inputDeadline" type="date" value={deadline} onChange={(e) => updateDeadline(index, e.target.value)} />
                             <img src="/img/calendar.svg" alt="Calendar icon" />
                         </div>
                         <div className="row">
-                            <input id="tagInput" type="text" placeholder="Add tags" />
-                            <button type="button">Add Tag</button>
+                            <input id="tagInput" type="text" placeholder="Add tags" onKeyDown={(e) => onKeyPress(e, 13, index, e.target.value, addTag)} />
+                            <button type="button" onClick={(e) => addTag(index, e.target.previousSilbing.value)}>Add Tag</button>
                         </div>
                         <div className="row">
                             <ul id="inputTagList"> 
@@ -54,7 +48,7 @@ class EditModal extends Component {
                                     //populates the tag ul with all tags in current state
                                     tags.map((tagName, tagIndex) => {
                                         return (
-                                            <Tag key={tagName} tagName={tagName} tagIndex={tagIndex} removeTag={removeTag} />
+                                            <Tag key={tagName} tagName={tagName} tagIndex={tagIndex} removeTag={removeTag} todoIndex={index} />
                                         );
                                     })
                                 }
@@ -76,9 +70,15 @@ class EditModal extends Component {
 }
 
 EditModal.proptypes = {
-    isEditing: PropTypes.bool.isRequired,
+    index: PropTypes.number.isRequired,
+    deadline: PropTypes.string.isRequired,
+    tags: PropTypes.arrayOf(PropTypes.string),
+    addTag: PropTypes.func.isRequired,
+    removeTag: PropTypes.func.isRequired,
+    toggleBool: PropTypes.func.isRequired,
     onKeyPress: PropTypes.func.isRequired,
-    updateText: PropTypes.func.isRequired
+    updateText: PropTypes.func.isRequired,
+    updateDeadline: PropTypes.func.isRequired
 }
 
 export default EditModal;

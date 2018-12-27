@@ -236,10 +236,20 @@ class App extends Component {
       })
     );
   }
-  
-  //blurs the app div -- all children blur unless blur is cleared in css
-  toggleAppBlur = () => {
-    this.appNode.current.classList.toggle('blur')
+
+  updateDeadline = (indexToChange, newDeadline) => {
+    console.log('called updateDeadline');
+    this.setState({
+      todo: this.state.todo.map((todo, index) => {
+        if (index === indexToChange) {
+          return {
+            ...todo,
+            deadline: newDeadline
+          }
+        }
+        return todo;
+      })
+    });
   }
 
   render() {
@@ -277,8 +287,8 @@ class App extends Component {
                             setTodoText={this.setTodoTextAt}
                             onKeyPress={this.onKeyPress}
                             submitTodo={this.submitTodo}
-                            blurApp={this.blurApp}
-                            moveTodo={this.moveTodo} />;
+                            moveTodo={this.moveTodo}
+                            updateDeadline={this.updateDeadline} />;
                 }
                 else {
                   return null;
@@ -304,8 +314,8 @@ class App extends Component {
                             setTodoText={this.setTodoTextAt}
                             onKeyPress={this.onKeyPress}
                             submitTodo={this.submitTodo}
-                            blurApp={this.blurApp}
-                            moveTodo={this.moveTodo} />;
+                            moveTodo={this.moveTodo}
+                            updateDeadline={this.updateDeadline} />;
                 }
                 else {
                   return null;
@@ -330,8 +340,8 @@ class App extends Component {
                           setTodoText={this.setTodoTextAt}
                           onKeyPress={this.onKeyPress}
                           submitTodo={this.submitTodo}
-                          toggleAppBlur={this.toggleAppBlur}
-                          moveTodo={this.moveTodo} />;
+                          moveTodo={this.moveTodo}
+                          updateDeadline={this.updateDeadline} />;
               }
             })
           }
