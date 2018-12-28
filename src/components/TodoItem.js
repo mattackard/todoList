@@ -90,6 +90,7 @@ class TodoItem extends Component {
         deleteTodo: PropTypes.func.isRequired,
         setTodoText: PropTypes.func.isRequired,
         submitTodo: PropTypes.func.isRequired,
+        updateTodo: PropTypes.func.isRequired,
         moveTodo: PropTypes.func.isRequired,
         updateDeadline: PropTypes.func.isRequired
     }
@@ -132,6 +133,7 @@ class TodoItem extends Component {
                 setTodoText,
                 onKeyPress,
                 submitTodo,
+                updateTodo,
                 updateDeadline,
                 isDragging,
                 connectDragSource,
@@ -165,24 +167,21 @@ class TodoItem extends Component {
                         isEditing ?
                             <EditModal
                                 index={index}
+                                text={text}
                                 deadline={deadline}
                                 tags={tags}
+                                updateText={e => setTodoText(index, e.target.value)}
                                 toggleBool={toggleBool}
                                 onKeyPress={onKeyPress} 
-                                updateText={e => setTodoText(index, e.target.value)} 
-                                submitTodo={submitTodo}
+                                updateTodo={updateTodo}
                                 removeTag={removeTag}
                                 addTag={addTag}
                                 updateDeadline={updateDeadline}
                             >{text}</EditModal>
                         :
-                            <TodoText 
-                                edit={isEditing} 
-                                onKeyPress={e => onKeyPress(e, 13, index, 'isEditing', toggleBool)} 
-                                updateText={e => setTodoText(index, e.target.value)} 
-                                >{text}
-                            </TodoText>
+                            null
                     }
+                    <span>{text}</span>
                     {
                         deadline && !isComplete ? <span className="dueDate" >Due in {this.daysUntil(deadline)} days</span> : null
                     }

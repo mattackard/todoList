@@ -55,6 +55,21 @@ class App extends Component {
     });
   }
 
+  //updates the state with the new todo item created in the editing modal
+  updateTodo = (indexToChange, updatedTodo) => {
+    this.setState({
+      todo: this.state.todo.map((todo, index) => {
+        if (index === indexToChange) {
+          return {
+            ...todo,
+            ...updatedTodo
+          }
+        }
+        return todo;
+      })
+    });
+  }
+
   //toggles a boolean value on a todo list item
   toggleTodoBool = (indexToChange, param) => {
     this.setState({
@@ -205,6 +220,7 @@ class App extends Component {
   onKeyPress = (e, keyCode, index, param, func) => {
     if (e.keyCode === keyCode) {
       func(index, param);
+      e.target.value = '';
     }
   }
 
@@ -238,7 +254,6 @@ class App extends Component {
   }
 
   updateDeadline = (indexToChange, newDeadline) => {
-    console.log('called updateDeadline');
     this.setState({
       todo: this.state.todo.map((todo, index) => {
         if (index === indexToChange) {
@@ -287,6 +302,7 @@ class App extends Component {
                             setTodoText={this.setTodoTextAt}
                             onKeyPress={this.onKeyPress}
                             submitTodo={this.submitTodo}
+                            updateTodo={this.updateTodo}
                             moveTodo={this.moveTodo}
                             updateDeadline={this.updateDeadline} />;
                 }
@@ -314,6 +330,7 @@ class App extends Component {
                             setTodoText={this.setTodoTextAt}
                             onKeyPress={this.onKeyPress}
                             submitTodo={this.submitTodo}
+                            updateTodo={this.updateTodo}
                             moveTodo={this.moveTodo}
                             updateDeadline={this.updateDeadline} />;
                 }
@@ -340,6 +357,7 @@ class App extends Component {
                           setTodoText={this.setTodoTextAt}
                           onKeyPress={this.onKeyPress}
                           submitTodo={this.submitTodo}
+                          updateTodo={this.updateTodo}
                           moveTodo={this.moveTodo}
                           updateDeadline={this.updateDeadline} />;
               }
