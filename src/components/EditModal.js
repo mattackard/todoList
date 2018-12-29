@@ -14,7 +14,6 @@ class EditModal extends Component {
             updateText,
             updateDeadline,
             toggleBool,
-            //updateTodo,
             onKeyPress } = this.props; 
 
         return (
@@ -63,8 +62,7 @@ EditModal.proptypes = {
     addTag: PropTypes.func.isRequired,
     removeTag: PropTypes.func.isRequired,
     onKeyPress: PropTypes.func.isRequired,
-    updateDeadline: PropTypes.func.isRequired,
-    updateTodo: PropTypes.func.isRequired
+    updateDeadline: PropTypes.func.isRequired
 }
 
 export default EditModal;

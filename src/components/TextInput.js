@@ -7,7 +7,18 @@ let placeholders = [
     'Buy milk',
     'Run a mile',
     'Do some laundry',
-    'Pay water bill'
+    'Pay water bill',
+    'Walk the dog',
+    'Make dinner',
+    'Clean the bathroom',
+    'Do some yardwork',
+    'Wash the car',
+    'Wash the dishes',
+    'Vacuum the floor',
+    'Get the mail',
+    'Take out the trash',
+    'Clean out the fridge',
+    'Empty the dishwasher'
 ];
 
 //scoped outside TextInput to avoid refreshing currentPlaceholder value everytime the state is updated in the controlled input

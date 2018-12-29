@@ -12,28 +12,11 @@ import HTML5Backend from 'react-dnd-html5-backend';
 
 class App extends Component {
 
-  //todo sample --- replace with empty array later
-  // [
-  //   {
-  //     text: 'Here is list item 1',
-  //     isEditing: false,
-  //     tags: []
-  //   },
-  //   {
-  //     text: 'Do this next',
-  //     isEditing: false,
-  //     tags: []
-  //   }
-  // ]
-
   state = {
     todo: [ ],
     filterArray: [ 'Complete' ],
     currentFilter: ''
   };
-
-  //ref used when blurring the background when modal is present
-  appNode = React.createRef();
 
   //adds a todo list item to the list
   submitTodo = (newTodo) => {
@@ -224,7 +207,7 @@ class App extends Component {
     }
   }
 
-  //sets the current filter when a filter is selected
+  //sets the current filter in state when a filter is selected
   setFilter = (selectedFilter) => {
     if (selectedFilter === 'Clear Filters') {
       this.setState({

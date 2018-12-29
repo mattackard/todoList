@@ -8,7 +8,6 @@ import ItemTypes from './ItemTypes';
 import flow from 'lodash/flow';
 
 //component imports
-//import TodoText from './TodoText';
 import EditModal from './EditModal';
 
 const todoSource = {
@@ -89,7 +88,6 @@ class TodoItem extends Component {
         toggleBool: PropTypes.func.isRequired,
         deleteTodo: PropTypes.func.isRequired,
         setTodoText: PropTypes.func.isRequired,
-        submitTodo: PropTypes.func.isRequired,
         updateTodo: PropTypes.func.isRequired,
         moveTodo: PropTypes.func.isRequired,
         updateDeadline: PropTypes.func.isRequired
@@ -132,7 +130,6 @@ class TodoItem extends Component {
                 deleteTodo,
                 setTodoText,
                 onKeyPress,
-                //submitTodo,
                 updateTodo,
                 updateDeadline,
                 isDragging,
