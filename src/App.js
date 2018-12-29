@@ -32,6 +32,9 @@ class App extends Component {
     currentFilter: ''
   };
 
+  //ref used when blurring the background when modal is present
+  appNode = React.createRef();
+
   //adds a todo list item to the list
   submitTodo = (newTodo) => {
     let tagsToAdd = [];
@@ -49,6 +52,21 @@ class App extends Component {
         ...this.state.filterArray,
         ...tagsToAdd
       ]
+    });
+  }
+
+  //updates the state with the new todo item created in the editing modal
+  updateTodo = (indexToChange, updatedTodo) => {
+    this.setState({
+      todo: this.state.todo.map((todo, index) => {
+        if (index === indexToChange) {
+          return {
+            ...todo,
+            ...updatedTodo
+          }
+        }
+        return todo;
+      })
     });
   }
 
@@ -202,6 +220,7 @@ class App extends Component {
   onKeyPress = (e, keyCode, index, param, func) => {
     if (e.keyCode === keyCode) {
       func(index, param);
+      e.target.value = '';
     }
   }
 
@@ -232,11 +251,25 @@ class App extends Component {
         }
       })
     );
-	}
+  }
+
+  updateDeadline = (indexToChange, newDeadline) => {
+    this.setState({
+      todo: this.state.todo.map((todo, index) => {
+        if (index === indexToChange) {
+          return {
+            ...todo,
+            deadline: newDeadline
+          }
+        }
+        return todo;
+      })
+    });
+  }
 
   render() {
     return (
-      <div className="App">
+      <div className="App" ref={this.appNode}>
         <h1>Todo List</h1>
 
         {/* main todo input form */}
@@ -268,7 +301,10 @@ class App extends Component {
                             deleteTodo={this.deleteTodo} 
                             setTodoText={this.setTodoTextAt}
                             onKeyPress={this.onKeyPress}
-                            moveTodo={this.moveTodo} />;
+                            submitTodo={this.submitTodo}
+                            updateTodo={this.updateTodo}
+                            moveTodo={this.moveTodo}
+                            updateDeadline={this.updateDeadline} />;
                 }
                 else {
                   return null;
@@ -293,7 +329,10 @@ class App extends Component {
                             deleteTodo={this.deleteTodo} 
                             setTodoText={this.setTodoTextAt}
                             onKeyPress={this.onKeyPress}
-                            moveTodo={this.moveTodo} />;
+                            submitTodo={this.submitTodo}
+                            updateTodo={this.updateTodo}
+                            moveTodo={this.moveTodo}
+                            updateDeadline={this.updateDeadline} />;
                 }
                 else {
                   return null;
@@ -317,7 +356,10 @@ class App extends Component {
                           deleteTodo={this.deleteTodo} 
                           setTodoText={this.setTodoTextAt}
                           onKeyPress={this.onKeyPress}
-                          moveTodo={this.moveTodo} />;
+                          submitTodo={this.submitTodo}
+                          updateTodo={this.updateTodo}
+                          moveTodo={this.moveTodo}
+                          updateDeadline={this.updateDeadline} />;
               }
             })
           }

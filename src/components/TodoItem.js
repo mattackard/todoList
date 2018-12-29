@@ -8,8 +8,8 @@ import ItemTypes from './ItemTypes';
 import flow from 'lodash/flow';
 
 //component imports
-import TodoText from './TodoText';
-import Tag from './Tag';
+//import TodoText from './TodoText';
+import EditModal from './EditModal';
 
 const todoSource = {
 	beginDrag(props) {
@@ -89,7 +89,10 @@ class TodoItem extends Component {
         toggleBool: PropTypes.func.isRequired,
         deleteTodo: PropTypes.func.isRequired,
         setTodoText: PropTypes.func.isRequired,
-        moveTodo: PropTypes.func.isRequired
+        submitTodo: PropTypes.func.isRequired,
+        updateTodo: PropTypes.func.isRequired,
+        moveTodo: PropTypes.func.isRequired,
+        updateDeadline: PropTypes.func.isRequired
     }
 
     //creates a reference to the DOMNode for use when mounted
@@ -123,30 +126,33 @@ class TodoItem extends Component {
                 isEditing,
                 firstLoad,
                 toggleTodoComplete,
-                //addTag, 
+                addTag, 
                 removeTag,
                 toggleBool,
                 deleteTodo,
                 setTodoText,
                 onKeyPress,
+                //submitTodo,
+                updateTodo,
+                updateDeadline,
                 isDragging,
                 connectDragSource,
                 connectDropTarget } = this.props;
 
         const completeToggle = (e) => {
             if (isComplete) {
-                toggleTodoComplete(index);
                 if (e.target.classList.contains('fillCheckbox')) {
                     e.target.classList.remove('fillCheckbox');
                 }
                 e.target.classList.add('emptyCheckbox');
+                toggleTodoComplete(index);
             }
             else {
-                toggleTodoComplete(index);
                 if (e.target.classList.contains('emptyCheckbox')) {
                     e.target.classList.remove('emptyCheckbox');
                 }
                 e.target.classList.add('fillCheckbox');
+                toggleTodoComplete(index);
             }
         }
 
@@ -157,12 +163,25 @@ class TodoItem extends Component {
             connectDropTarget( 
                 <li className={firstLoad ? "todoItem scale-in-center" : "todoItem"} ref={this.setListRef} style={{ opacity }}>
                     <button className="dragTodo icon"><img src="/img/drag.svg" alt="Drag todo item" /></button>
-                    <TodoText 
-                        edit={isEditing} 
-                        onKeyPress={e => onKeyPress(e, 13, index, 'isEditing', toggleBool)} 
-                        updateText={e => setTodoText(index, e.target.value)} 
-                        >{text}
-                    </TodoText>
+                    {
+                        isEditing ?
+                            <EditModal
+                                index={index}
+                                text={text}
+                                deadline={deadline}
+                                tags={tags}
+                                updateText={e => setTodoText(index, e.target.value)}
+                                toggleBool={toggleBool}
+                                onKeyPress={onKeyPress} 
+                                updateTodo={updateTodo}
+                                removeTag={removeTag}
+                                addTag={addTag}
+                                updateDeadline={updateDeadline}
+                            >{text}</EditModal>
+                        :
+                            null
+                    }
+                    <span>{text}</span>
                     {
                         deadline && !isComplete ? <span className="dueDate" >Due in {this.daysUntil(deadline)} days</span> : null
                     }
@@ -170,7 +189,6 @@ class TodoItem extends Component {
                         <title>Mark Todo as Complete</title>
                         <path d="M20 12.194v9.806h-20v-20h18.272l-1.951 2h-14.321v16h16v-5.768l2-2.038zm.904-10.027l-9.404 9.639-4.405-4.176-3.095 3.097 7.5 7.273 12.5-12.737-3.096-3.096z" />
                     </svg>
-                    {/* <input type="checkbox" checked={tags.includes('Complete')} /> */}
                     {
                         isEditing ?
                         <svg className="icon" onClick={() => toggleBool(index, 'isEditing')} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
@@ -187,24 +205,13 @@ class TodoItem extends Component {
                         <title>Delete this Todo Item</title>
                         <path d="M16 9v4.501c-.748.313-1.424.765-2 1.319v-5.82c0-.552.447-1 1-1s1 .448 1 1zm-4 0v10c0 .552-.447 1-1 1s-1-.448-1-1v-10c0-.552.447-1 1-1s1 .448 1 1zm1.82 15h-11.82v-18h2v16h8.502c.312.749.765 1.424 1.318 2zm-6.82-16c.553 0 1 .448 1 1v10c0 .552-.447 1-1 1s-1-.448-1-1v-10c0-.552.447-1 1-1zm14-4h-20v-2h5.711c.9 0 1.631-1.099 1.631-2h5.316c0 .901.73 2 1.631 2h5.711v2zm-1 2v7.182c-.482-.115-.983-.182-1.5-.182l-.5.025v-7.025h2zm3 13.5c0 2.485-2.017 4.5-4.5 4.5s-4.5-2.015-4.5-4.5 2.017-4.5 4.5-4.5 4.5 2.015 4.5 4.5zm-3.086-2.122l-1.414 1.414-1.414-1.414-.707.708 1.414 1.414-1.414 1.414.707.708 1.414-1.414 1.414 1.414.708-.708-1.414-1.414 1.414-1.414-.708-.708z"/>
                     </svg>
-                    {
-                        isEditing ? 
-                        //populates the tag ul with all tags in current state
-                        tags.map((tagName, tagIndex) => {
-                            return (
-                                <Tag key={tagName} tagName={tagName} tagIndex={tagIndex} todoIndex={index} removeTag={removeTag} />
-                            );
-                        })
-                        : null
-                    }
                 </li>
             )
         );
     }
 }
 
-
-// export default TodoItem;
+//fancy export for react-dnd using lodash flow
 export default flow([
     DragSource(ItemTypes.TODO, todoSource, (connect, monitor) => ({
       connectDragSource: connect.dragSource(),
