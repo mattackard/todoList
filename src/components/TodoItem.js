@@ -8,7 +8,7 @@ import ItemTypes from './ItemTypes';
 import flow from 'lodash/flow';
 
 //component imports
-import TodoText from './TodoText';
+//import TodoText from './TodoText';
 import EditModal from './EditModal';
 
 const todoSource = {
@@ -132,7 +132,7 @@ class TodoItem extends Component {
                 deleteTodo,
                 setTodoText,
                 onKeyPress,
-                submitTodo,
+                //submitTodo,
                 updateTodo,
                 updateDeadline,
                 isDragging,

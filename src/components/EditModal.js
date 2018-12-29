@@ -14,7 +14,7 @@ class EditModal extends Component {
             updateText,
             updateDeadline,
             toggleBool,
-            updateTodo,
+            //updateTodo,
             onKeyPress } = this.props; 
 
         return (
