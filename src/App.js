@@ -87,7 +87,7 @@ class App extends Component {
   deleteTodo = (e, indexToDelete) => {
 
     //get the todo item element and add slide-out-right class   
-    let target = e.target.parentNode.parentNode;
+    let target = e.target.parentNode.parentNode.parentNode.parentNode;
     target.classList.add('slide-out-right'); 
 
     //remove tags not used by any other todo
@@ -259,7 +259,12 @@ class App extends Component {
         <TextInput id="newTodoForm" submitTodo={this.submitTodo} onKeyPress={this.onKeyPress} />
 
         {/* filter menu for searching based on tags/complete */}
-        <Filters id="filterDropdown" setFilter={this.setFilter} filterList={this.state.filterArray} />
+        {
+          this.state.todo.length > 0 ?
+              <Filters id="filterDropdown" setFilter={this.setFilter} filterList={this.state.filterArray} />
+            :
+              null
+        }
 
         {/* todo item list */}
         <ul id="listContainer">

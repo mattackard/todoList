@@ -5,6 +5,7 @@ $font-stack-body: 'Pragati Narrow', sans-serif;
 $color-page-bg: tomato;
 $color-content-bg: white;
 $color-accent: lightblue;
+$color-content-inactive: #aaa;
 
 @mixin border {
     border: 2px solid $color-accent;
@@ -14,16 +15,15 @@ $color-accent: lightblue;
 html, body {
     margin: 0;
     padding: 0;
-    min-width: 100vw;
-    min-height: 100vh;
+    width: 100vw;
     font-family: $font-stack-body;
-    overflow: hidden;
 }
 
 .App {
   text-align: center;
   background-color: $color-page-bg;
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
 .App h1 {
@@ -61,6 +61,11 @@ html, body {
     width: 80%;
     text-align: center;
     margin: 0 .5em .5em .5em;
+}
+
+.todoItemText {
+    font-size: 1.2em;
+    word-wrap: normal;
 }
 
 #toggleFormDisplay {
@@ -107,18 +112,31 @@ html, body {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    padding: .5em;
     margin: 1em;
     border-top: 6px solid $color-accent;
     border-radius: .4em;
 }
 
-.todoItem span, .todoItem input {
+.todoItem span{
     flex-grow: 2;
+}
+
+.todoDetails {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: .2em;
+}
+
+.todoSVGs {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
 }
 
 .dragTodo {
     border: none;
+    padding: .5em 0 .5em .5em;
     background-color: $color-content-bg;
     &:hover {
         cursor: move;
@@ -128,13 +146,20 @@ html, body {
 .icon {
     border: none;
     background-color: $color-content-bg;
-    width: 36px;
+    width: 28px;
+    height: 24px;
+    margin: .1em;
     justify-content: center;
 }
 
 .checkbox {
-    color: #aaa;
-    fill: #aaa;
+    color: $color-content-inactive;
+    fill: $color-content-inactive;
+}
+
+.dueDate {
+    color: $color-content-inactive;
+    margin: 0;
 }
 
 #editModal {
@@ -144,10 +169,34 @@ html, body {
     width: 90%;
     padding: 0;
     max-height: 60%;
-    box-shadow: 0 0 100px 30px #aaa;
+    box-shadow: 0 0 100px 30px $color-content-inactive;
     background-color: white;
     @include border;
 }
+
+/**
+ * ----------------------------------------
+ * desktop styles
+ * ----------------------------------------
+ */
+@media (min-width: 1000px) {
+
+    .App {
+        font-size: 1.6em;
+    }
+
+    #createTodo {
+        max-width: 60%;
+        margin: auto;
+    }
+
+    .todoItem {
+        width: 50%;
+        margin: 1em auto;
+    }
+}
+
+
 
 /**
  * ----------------------------------------
@@ -170,7 +219,7 @@ html, body {
         opacity: 1;
     }
     100% {
-        transform: translateX(1000px);
+        transform: translateX(2000px);
         opacity: 1;
     }
 }
@@ -200,8 +249,8 @@ html, body {
         color: currentColor;
     }
     100% {
-        fill:#aaa;
-        color: #aaa;
+        fill: $color-content-inactive;
+        color: $color-content-inactive;
     }
 }
   
