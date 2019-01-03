@@ -5,6 +5,11 @@ import Tag from './Tag';
 
 class EditModal extends Component {
 
+    addTagButtonPress = (e) => {
+        this.props.addTag(this.props.index, e.target.previousSibling.value);
+        e.target.previousSibling.value = "";
+    }
+
     render() {
         const { index, 
             tags, 
@@ -29,7 +34,7 @@ class EditModal extends Component {
                         </div>
                         <div className="row">
                             <input id="tagInput" type="text" placeholder="Add tags" onKeyDown={(e) => onKeyPress(e, 13, index, e.target.value, addTag)} />
-                            <button type="button" onClick={(e) => addTag(index, e.target.previousSilbing.value)}>Add Tag</button>
+                            <button type="button" onClick={this.addTagButtonPress}>Add Tag</button>
                         </div>
                         <div className="row">
                             <ul id="inputTagList"> 

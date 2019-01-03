@@ -146,7 +146,7 @@ class App extends Component {
 
   //adds a tag to a todo item and adds the tag to the filter list
   //prevents duplicate tags from being created
-  addTag = (indexToChange, tag) => {      
+  addTag = (indexToChange, tag) => {    
     if (!this.state.filterArray.includes(tag) && !this.state.todo[indexToChange].tags.includes(tag)) {
       this.setState({
         filterArray: [
