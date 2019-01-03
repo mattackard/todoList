@@ -7,10 +7,12 @@ $color-content-bg: white;
 $color-accent: lightblue;
 $color-content-inactive: #aaa;
 
+
 @mixin border {
     border: 2px solid $color-accent;
     border-radius: .4em;
 }
+
 
 html, body {
     margin: 0;
@@ -24,13 +26,24 @@ html, body {
   background-color: $color-page-bg;
   min-height: 100vh;
   overflow-x: hidden;
+
+    h1 {
+        margin: 0;
+        padding: 1em 1em .3em;
+        font-family: $font-stack-logo;
+    }
+
+    select {
+        padding: 0.5em;
+        margin: 1em;
+    }
 }
 
-.App h1 {
-    margin: 0;
-    padding: 1em 1em .3em;
-    font-family: $font-stack-logo;
-}
+/**
+ * ----------------------------------------
+ * TextInput
+ * ----------------------------------------
+ */
 
 #createTodo {
     background-color: $color-content-bg;
@@ -38,23 +51,33 @@ html, body {
     margin: 0 5%;
     padding-bottom: 2em;
     @include border;
+
+    button {
+        padding: .5em;
+    }
+
+    h2 {
+        margin-bottom: 0;
+    }
+
+    input {
+        @include border;
+        padding: .4em;
+        text-align: right;
+    }
 }
 
-#createTodo h2 {
-    margin-bottom: 0;
+#toggleFormDisplay {
+    background-color: $color-content-bg;
+    border: none;
+    margin: -5px 0 0 0.5em;
 }
 
 .row {
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: center;
     margin: 1em;
-}
-
-#createTodo input {
-    @include border;
-    padding: .4em;
-    text-align: right;
 }
 
 #todoText {
@@ -63,19 +86,33 @@ html, body {
     margin: 0 .5em .5em .5em;
 }
 
+#inputDeadline {
+    margin-right: 5em;
+}
+
+#tagInput {
+    margin-right: 3em;
+}
+
+/**
+ * ----------------------------------------
+ * Filters
+ * ----------------------------------------
+ */ 
+
+#filterDropdown {
+    @include border;
+}
+
+/**
+ * ----------------------------------------
+ * TodoItem
+ * ----------------------------------------
+ */
+
 .todoItemText {
     font-size: 1.2em;
     word-wrap: normal;
-}
-
-#toggleFormDisplay {
-    background-color: $color-content-bg;
-    border: none;
-}
-
-.App select {
-    padding: 0.5em;
-    margin: 1em;
 }
 
 #inputTagList {
@@ -115,10 +152,10 @@ html, body {
     margin: 1em;
     border-top: 6px solid $color-accent;
     border-radius: .4em;
-}
 
-.todoItem span{
-    flex-grow: 2;
+    span {
+        flex-grow: 2;
+    }
 }
 
 .todoDetails {
@@ -136,7 +173,7 @@ html, body {
 
 .dragTodo {
     border: none;
-    padding: .5em 0 .5em .5em;
+    margin: .5em 0 .5em .5em;
     background-color: $color-content-bg;
     &:hover {
         cursor: move;
@@ -161,6 +198,12 @@ html, body {
     color: $color-content-inactive;
     margin: 0;
 }
+
+/**
+ * ----------------------------------------
+ * EditModal
+ * ----------------------------------------
+ */ 
 
 #editModal {
     position: absolute;
@@ -253,6 +296,22 @@ html, body {
         color: $color-content-inactive;
     }
 }
+@keyframes rotate-up {
+    0% {
+              transform: rotate(0);
+    }
+    100% {
+              transform: rotate(180deg);
+    }
+}
+@keyframes rotate-down {
+    0% {
+              transform: rotate(180deg);
+    }
+    100% {
+              transform: rotate(0);
+    }
+}
   
 .scale-in-center {
     animation: scale-in-center 0.2s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
@@ -268,4 +327,10 @@ html, body {
 }
 .emptyCheckbox {
     animation: empty-checkbox 0.2s linear both;
+}
+.rotate-up {
+    animation: rotate-up 0.2s linear both;
+}
+.rotate-down {
+    animation: rotate-up 0.2s linear both;
 }

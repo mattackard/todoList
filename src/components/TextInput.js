@@ -56,6 +56,11 @@ export default class TextInput extends Component {
         }
     }
 
+    componentDidUpdate () {
+        //rotates the details icon next to the input according to formDetails boolenan
+        document.getElementById('toggleFormDisplay').style.transform = this.state.formDetails ? "rotate(180deg)" : "rotate(0)";
+    }
+
     //picks a new random placeholder text for the main text input field
     changePlaceholder = () => {
         return placeholders[Math.floor(Math.random() * placeholders.length)];
@@ -157,6 +162,7 @@ export default class TextInput extends Component {
                 formDetails: true
             }); 
         }
+
     }
 
     render() {
@@ -165,7 +171,7 @@ export default class TextInput extends Component {
                 <h2>What do you have to do?</h2>
                 <div className="row">
                     <input id="todoText" type="text" placeholder={currentPlaceholder} onChange={this.updateText} value={this.state.newTodo.text} onKeyDown={(e) => this.onKeyPress(e, 13, e, null, this.handleSubmit)} onFocus={this.toggleFormDetails} />
-                    <button id="toggleFormDisplay" className="icon" onClick={this.toggleFormDetails} type="button"><img src="/img/arrow.svg" alt="Expand form field" /></button>
+                    <img src="/img/arrow.svg" alt="Expand form field" id="toggleFormDisplay" onClick={this.toggleFormDetails} />
                 </div>
                 {
                     //if formDetails is true, show the rest of the form fields, otherwise show nothing

@@ -7,9 +7,8 @@ const Filters = ({ setFilter, filterList }) => {
     //each item selected will be added to the filters and removed from the filter list
     //clear all filters needs to be an option
     return (
-        <select value="Filters" onChange={e => setFilter(e.target.value)}>
-            <option disabled hidden>Filters</option>
-            <option>Clear Filters</option>
+        <select id="filterDropdown" onChange={e => setFilter(e.target.value)}>
+            <option>No Filter</option>
             {
                 filterList.map((filter, index) => (
                     <option key={filter} index={index}>{filter}</option>

@@ -209,7 +209,7 @@ class App extends Component {
 
   //sets the current filter in state when a filter is selected
   setFilter = (selectedFilter) => {
-    if (selectedFilter === 'Clear Filters') {
+    if (selectedFilter === 'No Filter') {
       this.setState({
         currentFilter: ''
       });
@@ -256,12 +256,12 @@ class App extends Component {
         <h1>Todo List</h1>
 
         {/* main todo input form */}
-        <TextInput id="newTodoForm" submitTodo={this.submitTodo} onKeyPress={this.onKeyPress} />
+        <TextInput submitTodo={this.submitTodo} onKeyPress={this.onKeyPress} />
 
         {/* filter menu for searching based on tags/complete */}
         {
           this.state.todo.length > 0 ?
-              <Filters id="filterDropdown" setFilter={this.setFilter} filterList={this.state.filterArray} />
+              <Filters setFilter={this.setFilter} filterList={this.state.filterArray} />
             :
               null
         }
