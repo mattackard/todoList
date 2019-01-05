@@ -210,6 +210,16 @@ html, body {
  * ----------------------------------------
  */ 
 
+ #modalBG {
+     background-color: rgba(0,0,0,0.4);
+     height: 100vh;
+     width: 100vw;
+     position: absolute;
+     top: 0;
+     left: 0;
+     z-index: 2;
+ }
+
 #editModal {
     position: absolute;
     top: 20%;
@@ -217,8 +227,9 @@ html, body {
     width: 90%;
     padding: 0;
     max-height: 60%;
-    background-color: white;
+    background-color: $color-content-bg;
     @include border;
+    z-index: 3;
 }
 
 /**
@@ -240,6 +251,11 @@ html, body {
     .todoItem {
         width: 50%;
         margin: 1em auto;
+    }
+
+    #editModal {
+        width: 50%;
+        left: 25%;
     }
 }
 
