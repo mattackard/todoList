@@ -1,6 +1,14 @@
-html, body {
+html {
+  min-height: 100%;
+  position: relative;
   margin: 0;
   padding: 0;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
   width: 100vw;
   font-family: "Pragati Narrow", sans-serif;
 }
@@ -21,6 +29,22 @@ html, body {
 .App select {
   padding: 0.5em;
   margin: 1em;
+}
+
+::-webkit-input-placeholder {
+  opacity: 0.4;
+}
+
+:-ms-input-placeholder {
+  opacity: 0.4;
+}
+
+::-ms-input-placeholder {
+  opacity: 0.4;
+}
+
+::placeholder {
+  opacity: 0.4;
 }
 
 /**
@@ -47,14 +71,21 @@ html, body {
 }
 
 #createTodo h2 {
+  font-size: 1.8em;
   margin-bottom: 0;
 }
 
 #createTodo input {
   border: 2px solid lightblue;
   border-radius: .4em;
+  border-radius: 0;
   padding: .4em;
   text-align: right;
+}
+
+#createTodo .deleteTag {
+  border-radius: 50%;
+  padding: 0.5em;
 }
 
 #toggleFormDisplay {
@@ -81,6 +112,8 @@ html, body {
   width: 80%;
   text-align: center;
   margin: 0 .5em .5em .5em;
+  font-size: 1.4em;
+  font-weight: bold;
 }
 
 #inputDeadline {
@@ -89,6 +122,16 @@ html, body {
 
 #tagInput {
   margin-right: 3em;
+  height: 1.5em;
+  margin: auto 3em auto 0;
+  font-weight: bold;
+}
+
+.tempTag {
+  padding: 0 1em 0 0.1em;
+  margin: 0.3em;
+  background-color: lightblue;
+  border-radius: 1em;
 }
 
 /**
@@ -109,6 +152,7 @@ html, body {
 .todoItemText {
   font-size: 1.2em;
   word-wrap: normal;
+  margin: auto;
 }
 
 #inputTagList {
@@ -127,19 +171,6 @@ html, body {
   -webkit-box-pack: left;
       -ms-flex-pack: left;
           justify-content: left;
-}
-
-.tempTag {
-  padding: .3em .7em .3em .2em;
-  margin: .2em;
-  background-color: lightblue;
-  border-radius: 1em;
-}
-
-.deleteTag {
-  border: none;
-  background: lightblue;
-  margin-right: .2em;
 }
 
 #listContainer {
@@ -196,6 +227,7 @@ html, body {
   -webkit-box-pack: end;
       -ms-flex-pack: end;
           justify-content: flex-end;
+  margin-top: 0.2em;
 }
 
 .dragTodo {
@@ -236,11 +268,14 @@ html, body {
  */
 #modalBG {
   background-color: rgba(0, 0, 0, 0.4);
-  height: 100vh;
-  width: 100vw;
+  height: 100%;
+  width: 100%;
   position: absolute;
   top: 0;
+  bottom: 0;
   left: 0;
+  right: 0;
+  overflow: hidden;
   z-index: 2;
 }
 
@@ -257,6 +292,39 @@ html, body {
   z-index: 3;
 }
 
+#editModal button {
+  padding: .8em;
+  background-color: lightblue;
+  border: none;
+  border-radius: .4em;
+  font-family: "Concert One", cursive;
+  font-size: 1em;
+  font-size: 1em;
+}
+
+#editModal input {
+  border: 2px solid lightblue;
+  border-radius: .4em;
+  border-radius: 0;
+  padding: .3em;
+}
+
+#editModal svg {
+  width: 1.4em;
+  height: 1.4em;
+}
+
+#editModal .deleteTag {
+  border-radius: 50%;
+  padding: 0.5em;
+}
+
+#editTodoText {
+  font-size: 1.5em;
+  font-weight: bold;
+  width: 80%;
+}
+
 /**
  * ----------------------------------------
  * desktop styles
@@ -270,6 +338,9 @@ html, body {
     max-width: 60%;
     margin: auto;
   }
+  #createTodo button {
+    font-size: 0.8em;
+  }
   .todoItem {
     width: 50%;
     margin: 1em auto;
@@ -277,6 +348,10 @@ html, body {
   #editModal {
     width: 50%;
     left: 25%;
+  }
+  .tempTag {
+    font-size: 0.7em;
+    padding: 0 0.7em 0 0;
   }
 }
 

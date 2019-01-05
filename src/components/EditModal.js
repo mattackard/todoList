@@ -26,7 +26,7 @@ class EditModal extends Component {
                 <div id="editModal">
                     <form>
                         <div className="row">
-                            <input id="todoText" type="text" onChange={updateText} value={this.props.children} autoFocus />
+                            <input id="editTodoText" type="text" onChange={updateText} value={this.props.children} autoFocus />
                         </div>
                         <div>
                             <div className="row">
@@ -50,7 +50,7 @@ class EditModal extends Component {
                                 </ul>
                             </div>
                         </div>
-                        <svg className="icon" onClick={() => toggleBool(index, 'isEditing')} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <svg onClick={() => toggleBool(index, 'isEditing')} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                             <title>Save Changes</title>
                             <path d="M13 3h2.996v5h-2.996v-5zm11 1v20h-24v-24h20l4 4zm-17 5h10v-7h-10v7zm15-4.171l-2.828-2.829h-.172v9h-14v-9h-3v20h20v-17.171zm-3 10.171h-14v1h14v-1zm0 2h-14v1h14v-1zm0 2h-14v1h14v-1z"/>
                         </svg>
