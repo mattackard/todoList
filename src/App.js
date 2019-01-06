@@ -219,6 +219,10 @@ class App extends Component {
         currentFilter: selectedFilter
       });
     }
+    //sorts the todo list in state by deadline
+    if (selectedFilter === 'Sort by Deadline') {
+      this.sortTodosByDeadline();
+    }
   }
 
   //react-dnd function to swap todo item positions
@@ -247,6 +251,17 @@ class App extends Component {
         }
         return todo;
       })
+    });
+  }
+
+  //sorts the todo list items by closest deadline with no deadline sorting to the top of the list
+  sortTodosByDeadline = () => {
+    let sorted = this.state.todo;
+    sorted.sort((a,b) => {
+      return Date.parse(a.deadline) - Date.parse(b.deadline);
+    });
+    this.setState({
+      todo: [...sorted]
     });
   }
 
@@ -300,6 +315,29 @@ class App extends Component {
               }
               else if (this.state.currentFilter) {
                 if (td.tags.includes(this.state.currentFilter)) {
+                  return <TodoItem 
+                            key={td.text} 
+                            id={td.text}
+                            index={index}
+                            text={td.text} 
+                            isComplete={td.isComplete}
+                            tags={td.tags} 
+                            deadline={td.deadline}
+                            isEditing={td.isEditing}
+                            firstLoad={td.firstLoad}
+                            toggleTodoComplete={this.toggleTodoComplete}
+                            addTag={this.addTag} 
+                            removeTag={this.removeTag}
+                            toggleBool={this.toggleTodoBool} 
+                            deleteTodo={this.deleteTodo} 
+                            setTodoText={this.setTodoTextAt}
+                            onKeyPress={this.onKeyPress}
+                            submitTodo={this.submitTodo}
+                            updateTodo={this.updateTodo}
+                            moveTodo={this.moveTodo}
+                            updateDeadline={this.updateDeadline} />;
+                }
+                else if (this.state.currentFilter === 'Sort by Deadline') {
                   return <TodoItem 
                             key={td.text} 
                             id={td.text}
