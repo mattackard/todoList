@@ -87,7 +87,7 @@ class App extends Component {
   deleteTodo = (e, indexToDelete) => {
 
     //get the todo item element and add slide-out-right class   
-    let target = e.target.parentNode.parentNode;
+    let target = e.target.parentNode.parentNode.parentNode.parentNode;
     target.classList.add('slide-out-right'); 
 
     //remove tags not used by any other todo
@@ -146,7 +146,7 @@ class App extends Component {
 
   //adds a tag to a todo item and adds the tag to the filter list
   //prevents duplicate tags from being created
-  addTag = (indexToChange, tag) => {      
+  addTag = (indexToChange, tag) => {    
     if (!this.state.filterArray.includes(tag) && !this.state.todo[indexToChange].tags.includes(tag)) {
       this.setState({
         filterArray: [
@@ -209,7 +209,7 @@ class App extends Component {
 
   //sets the current filter in state when a filter is selected
   setFilter = (selectedFilter) => {
-    if (selectedFilter === 'Clear Filters') {
+    if (selectedFilter === 'No Filter') {
       this.setState({
         currentFilter: ''
       });
@@ -218,6 +218,10 @@ class App extends Component {
       this.setState({
         currentFilter: selectedFilter
       });
+    }
+    //sorts the todo list in state by deadline
+    if (selectedFilter === 'Sort by Deadline') {
+      this.sortTodosByDeadline();
     }
   }
 
@@ -250,16 +254,32 @@ class App extends Component {
     });
   }
 
+  //sorts the todo list items by closest deadline with no deadline sorting to the top of the list
+  sortTodosByDeadline = () => {
+    let sorted = this.state.todo;
+    sorted.sort((a,b) => {
+      return Date.parse(a.deadline) - Date.parse(b.deadline);
+    });
+    this.setState({
+      todo: [...sorted]
+    });
+  }
+
   render() {
     return (
       <div className="App" ref={this.appNode}>
         <h1>Todo List</h1>
 
         {/* main todo input form */}
-        <TextInput id="newTodoForm" submitTodo={this.submitTodo} onKeyPress={this.onKeyPress} />
+        <TextInput submitTodo={this.submitTodo} onKeyPress={this.onKeyPress} />
 
         {/* filter menu for searching based on tags/complete */}
-        <Filters id="filterDropdown" setFilter={this.setFilter} filterList={this.state.filterArray} />
+        {
+          this.state.todo.length > 0 ?
+              <Filters setFilter={this.setFilter} filterList={this.state.filterArray} />
+            :
+              null
+        }
 
         {/* todo item list */}
         <ul id="listContainer">
@@ -295,6 +315,29 @@ class App extends Component {
               }
               else if (this.state.currentFilter) {
                 if (td.tags.includes(this.state.currentFilter)) {
+                  return <TodoItem 
+                            key={td.text} 
+                            id={td.text}
+                            index={index}
+                            text={td.text} 
+                            isComplete={td.isComplete}
+                            tags={td.tags} 
+                            deadline={td.deadline}
+                            isEditing={td.isEditing}
+                            firstLoad={td.firstLoad}
+                            toggleTodoComplete={this.toggleTodoComplete}
+                            addTag={this.addTag} 
+                            removeTag={this.removeTag}
+                            toggleBool={this.toggleTodoBool} 
+                            deleteTodo={this.deleteTodo} 
+                            setTodoText={this.setTodoTextAt}
+                            onKeyPress={this.onKeyPress}
+                            submitTodo={this.submitTodo}
+                            updateTodo={this.updateTodo}
+                            moveTodo={this.moveTodo}
+                            updateDeadline={this.updateDeadline} />;
+                }
+                else if (this.state.currentFilter === 'Sort by Deadline') {
                   return <TodoItem 
                             key={td.text} 
                             id={td.text}

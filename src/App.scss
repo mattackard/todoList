@@ -5,32 +5,65 @@ $font-stack-body: 'Pragati Narrow', sans-serif;
 $color-page-bg: tomato;
 $color-content-bg: white;
 $color-accent: lightblue;
+$color-content-inactive: #aaa;
+
 
 @mixin border {
     border: 2px solid $color-accent;
     border-radius: .4em;
 }
 
-html, body {
+@mixin formButton {
+    padding: .8em;
+    background-color: $color-accent;
+    border: none;
+    border-radius: .4em;
+    font-family: $font-stack-logo;
+    font-size: 1em;
+}
+
+html {
+    min-height: 100%;
+    position: relative;
     margin: 0;
     padding: 0;
-    min-width: 100vw;
-    min-height: 100vh;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100vw;
     font-family: $font-stack-body;
-    overflow: hidden;
 }
 
 .App {
   text-align: center;
   background-color: $color-page-bg;
   min-height: 100vh;
+  overflow-x: hidden;
+
+    h1 {
+        margin: 0;
+        padding: 1em 1em .3em;
+        font-family: $font-stack-logo;
+    }
+
+    select {
+        padding: 0.5em;
+        margin: 1em;
+    }
 }
 
-.App h1 {
-    margin: 0;
-    padding: 1em 1em .3em;
-    font-family: $font-stack-logo;
+::placeholder {
+    opacity: 0.4;
 }
+
+/**
+ * ----------------------------------------
+ * TextInput
+ * ----------------------------------------
+ */
 
 #createTodo {
     background-color: $color-content-bg;
@@ -38,39 +71,88 @@ html, body {
     margin: 0 5%;
     padding-bottom: 2em;
     @include border;
+
+    button {
+        @include formButton;
+    }
+
+    h2 {
+        font-size: 1.8em;
+        margin-bottom: 0;
+    }
+
+    input {
+        @include border;
+        border-radius: 0;
+        padding: .4em;
+        text-align: right;
+    }
+
+    .deleteTag {
+        border-radius: 50%;
+        padding: 0.5em;
+    }
 }
 
-#createTodo h2 {
-    margin-bottom: 0;
+#toggleFormDisplay {
+    background-color: $color-content-bg;
+    border: none;
+    margin: -5px 0 0 0.5em;
 }
 
 .row {
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: center;
     margin: 1em;
-}
-
-#createTodo input {
-    @include border;
-    padding: .4em;
-    text-align: right;
 }
 
 #todoText {
     width: 80%;
     text-align: center;
     margin: 0 .5em .5em .5em;
+    font-size: 1.4em;
+    font-weight: bold;
 }
 
-#toggleFormDisplay {
-    background-color: $color-content-bg;
-    border: none;
+#inputDeadline {
+    margin-right: 5em;
 }
 
-.App select {
-    padding: 0.5em;
-    margin: 1em;
+#tagInput {
+    margin-right: 3em;
+    height: 1.5em;
+    margin: auto 3em auto 0;
+    font-weight: bold;
+}
+
+.tempTag {
+    padding: 0 1em 0 0.1em;
+    margin: 0.3em;
+    background-color: $color-accent;
+    border-radius: 1em;
+}
+
+/**
+ * ----------------------------------------
+ * Filters
+ * ----------------------------------------
+ */ 
+
+#filterDropdown {
+    @include border;
+}
+
+/**
+ * ----------------------------------------
+ * TodoItem
+ * ----------------------------------------
+ */
+
+.todoItemText {
+    font-size: 1.2em;
+    word-wrap: normal;
+    margin: auto;
 }
 
 #inputTagList {
@@ -81,19 +163,6 @@ html, body {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: left;
-}
-
-.tempTag {
-    padding: .3em .7em .3em .2em;
-    margin: .2em;
-    background-color: $color-accent;
-    border-radius: 1em;
-}
-
-.deleteTag {
-    border: none;
-    background: $color-accent;
-    margin-right: .2em;
 }
 
 #listContainer {
@@ -107,19 +176,34 @@ html, body {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    padding: .5em;
     margin: 1em;
     border-top: 6px solid $color-accent;
     border-radius: .4em;
+
+    span {
+        flex-grow: 2;
+    }
 }
 
-.todoItem span, .todoItem input {
-    flex-grow: 2;
+.todoDetails {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: .2em;
+}
+
+.todoSVGs {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin-top: 0.2em;
 }
 
 .dragTodo {
     border: none;
+    margin: .5em 0 .5em .5em;
     background-color: $color-content-bg;
+
     &:hover {
         cursor: move;
     }
@@ -128,14 +212,40 @@ html, body {
 .icon {
     border: none;
     background-color: $color-content-bg;
-    width: 36px;
+    width: 28px;
+    height: 24px;
+    margin: .1em;
     justify-content: center;
 }
 
 .checkbox {
-    color: #aaa;
-    fill: #aaa;
+    color: $color-content-inactive;
+    fill: $color-content-inactive;
 }
+
+.dueDate {
+    color: $color-content-inactive;
+    margin: 0;
+}
+
+/**
+ * ----------------------------------------
+ * EditModal
+ * ----------------------------------------
+ */ 
+
+ #modalBG {
+     background-color: rgba(0,0,0,0.4);
+     height: 100%;
+     width: 100%;
+     position: absolute;
+     top: 0;
+     bottom: 0;
+     left: 0;
+     right: 0;
+     overflow: hidden;
+     z-index: 2;
+ }
 
 #editModal {
     position: absolute;
@@ -144,10 +254,75 @@ html, body {
     width: 90%;
     padding: 0;
     max-height: 60%;
-    box-shadow: 0 0 100px 30px #aaa;
-    background-color: white;
+    background-color: $color-content-bg;
     @include border;
+    z-index: 3;
+    
+    button {
+        @include formButton;
+        font-size: 1em;
+    }
+
+    input {
+        @include border;
+        border-radius: 0;
+        padding: .3em;
+    }
+
+    svg {
+        width: 1.4em;
+        height: 1.4em;
+    } 
+
+    .deleteTag {
+        border-radius: 50%;
+        padding: 0.5em;
+    }
 }
+
+#editTodoText {
+    font-size: 1.5em;
+    font-weight: bold;
+    width: 80%;
+}
+
+/**
+ * ----------------------------------------
+ * desktop styles
+ * ----------------------------------------
+ */
+@media (min-width: 1000px) {
+
+    .App {
+        font-size: 1.6em;
+    }
+
+    #createTodo {
+        max-width: 60%;
+        margin: auto;
+
+        button {
+            font-size: 0.8em;
+        }
+    }
+
+    .todoItem {
+        width: 50%;
+        margin: 1em auto;
+    }
+
+    #editModal {
+        width: 50%;
+        left: 25%;
+    }
+
+    .tempTag {
+        font-size: 0.7em;
+        padding: 0 0.7em 0 0;
+    }
+}
+
+
 
 /**
  * ----------------------------------------
@@ -170,7 +345,7 @@ html, body {
         opacity: 1;
     }
     100% {
-        transform: translateX(1000px);
+        transform: translateX(2000px);
         opacity: 1;
     }
 }
@@ -200,8 +375,24 @@ html, body {
         color: currentColor;
     }
     100% {
-        fill:#aaa;
-        color: #aaa;
+        fill: $color-content-inactive;
+        color: $color-content-inactive;
+    }
+}
+@keyframes rotate-up {
+    0% {
+              transform: rotate(0);
+    }
+    100% {
+              transform: rotate(180deg);
+    }
+}
+@keyframes rotate-down {
+    0% {
+              transform: rotate(180deg);
+    }
+    100% {
+              transform: rotate(0);
     }
 }
   
@@ -219,4 +410,10 @@ html, body {
 }
 .emptyCheckbox {
     animation: empty-checkbox 0.2s linear both;
+}
+.rotate-up {
+    animation: rotate-up 0.2s linear both;
+}
+.rotate-down {
+    animation: rotate-up 0.2s linear both;
 }
