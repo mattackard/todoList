@@ -44,8 +44,8 @@ export default class TextInput extends Component {
     }
 
     //used to reset state after the form is submitted
+    //toggleDetails is omitted to prevent resetting it's value
     emptyState = {
-        formDetails: false,
         newTodo: {
             text: '',
             isEditing: false,
