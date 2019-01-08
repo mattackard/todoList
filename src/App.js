@@ -8,7 +8,8 @@ import Filters from './components/Filters';
 
 //react dnd imports
 import { DragDropContext } from 'react-dnd';
-import HTML5Backend from 'react-dnd-html5-backend';
+import MultiBackend from 'react-dnd-multi-backend';
+import HTML5toTouch from 'react-dnd-multi-backend/lib/HTML5toTouch';
 
 class App extends Component {
 
@@ -395,4 +396,4 @@ class App extends Component {
   }
 }
 
-export default DragDropContext(HTML5Backend)(App);
+export default DragDropContext(MultiBackend(HTML5toTouch))(App);
