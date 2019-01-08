@@ -87,8 +87,10 @@ class App extends Component {
   //removes a todo list item from the list
   deleteTodo = (e, indexToDelete) => {
 
-    //get the todo item element and add slide-out-right class   
-    let target = e.target.parentNode.parentNode.parentNode.parentNode;
+    //get the todo item element and add slide-out-right class
+    //closest works best for consistency over parentNode   
+    let target = e.target.closest('li');
+    console.log(target);
     target.classList.add('slide-out-right'); 
 
     //remove tags not used by any other todo
@@ -103,9 +105,6 @@ class App extends Component {
 
     //remove duplicate tags
     newFilterArray = Array.from(new Set(newFilterArray));
-
-    //replace the always present 'Complete' tag
-    newFilterArray.unshift('Complete');
 
     //wait for the animation to finish, then remove todo from state and adjust filter tags
     setTimeout(() => {
