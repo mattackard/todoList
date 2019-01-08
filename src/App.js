@@ -90,7 +90,6 @@ class App extends Component {
     //get the todo item element and add slide-out-right class
     //closest works best for consistency over parentNode   
     let target = e.target.closest('li');
-    console.log(target);
     target.classList.add('slide-out-right'); 
 
     //remove tags not used by any other todo

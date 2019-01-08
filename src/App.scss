@@ -359,26 +359,22 @@ body {
         opacity: 1;
     }
 }
-@keyframes fill-checkbox {
-    0% {
-        fill: currentColor;
-        color: currentColor;
-    }
-    100% {
-        fill:green;
-        color: green;
-    }
-}
-@keyframes empty-checkbox {
-    0% {
-        fill: currentColor;
-        color: currentColor;
-    }
-    100% {
-        fill: $color-content-inactive;
-        color: $color-content-inactive;
-    }
-}
+// @keyframes fill-checkbox {
+//     0% {
+//         fill: $color-content-inactive;
+//     }
+//     100% {
+//         fill:green;
+//     }
+// }
+// @keyframes empty-checkbox {
+//     0% {
+//         fill: green;
+//     }
+//     100% {
+//         fill: $color-content-inactive;
+//     }
+// }
 @keyframes rotate-up {
     0% {
               transform: rotate(0);
