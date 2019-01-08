@@ -124,20 +124,23 @@ class App extends Component {
   //removes a given tag if it is present
   removeTag = (e, tagIndex, indexToChange) => {
     if (this.state.todo[indexToChange].tags[tagIndex] === e.target.nextSibling.textContent) {
-      this.setState({
-        todo: this.state.todo.map((todo, index) => {
-          if (index === indexToChange) {
-            return {
-              ...todo,
-              tags: [
-                ...todo.tags.splice(0, tagIndex),
-                ...todo.tags.splice(tagIndex + 1)
-              ]
+      e.target.closest('.tempTag').classList.add('scale-out-center');
+      setTimeout(() => {
+        this.setState({
+          todo: this.state.todo.map((todo, index) => {
+            if (index === indexToChange) {
+              return {
+                ...todo,
+                tags: [
+                  ...todo.tags.slice(0, tagIndex),
+                  ...todo.tags.slice(tagIndex + 1)
+                ]
+              }
             }
-          }
-          return todo;
-        })
-      });
+            return todo;
+          })
+        });
+      }, 200);
     }
     else {
       alert("Tag not found or already deleted");
