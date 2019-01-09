@@ -260,7 +260,15 @@ class App extends Component {
   sortTodosByDeadline = () => {
     let sorted = this.state.todo;
     sorted.sort((a,b) => {
-      return Date.parse(a.deadline) - Date.parse(b.deadline);
+      if (!a.deadline) {
+        return 0 - Date.parse(b.deadline);
+      }
+      else if (!b.deadline) {
+        return Date.parse(a.deadline) - 0;
+      }
+      else {
+        return Date.parse(a.deadline) - Date.parse(b.deadline);
+      }
     });
     this.setState({
       todo: [...sorted]
