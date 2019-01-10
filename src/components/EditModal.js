@@ -31,7 +31,7 @@ class EditModal extends Component {
                         <div>
                             <div className="row">
                                 <input id="inputDeadline" type="date" value={deadline} onChange={(e) => updateDeadline(index, e.target.value)} />
-                                <img src="/img/calendar.svg" alt="Calendar icon" />
+                                <img src="/todoList/img/calendar.svg" alt="Calendar icon" />
                             </div>
                             <div className="row">
                                 <input id="tagInput" type="text" placeholder="Add tags" onKeyDown={(e) => onKeyPress(e, 13, index, e.target.value, addTag)} />

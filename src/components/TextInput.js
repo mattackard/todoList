@@ -171,7 +171,7 @@ export default class TextInput extends Component {
                 <h2>What do you have to do?</h2>
                 <div className="row">
                     <input id="todoText" type="text" placeholder={currentPlaceholder} onChange={this.updateText} value={this.state.newTodo.text} onKeyDown={(e) => this.onKeyPress(e, 13, e, null, this.handleSubmit)} onFocus={this.toggleFormDetails} />
-                    <img src="/img/arrow.svg" alt="Expand form field" id="toggleFormDisplay" onClick={this.toggleFormDetails} />
+                    <img src="/todoList/img/arrow.svg" alt="Expand form field" id="toggleFormDisplay" onClick={this.toggleFormDetails} />
                 </div>
                 {
                     //if formDetails is true, show the rest of the form fields, otherwise show nothing
@@ -179,7 +179,7 @@ export default class TextInput extends Component {
                         <div className="scale-in-center" >
                             <div className="row">
                                 <input id="inputDeadline" type="date" onChange={this.setDeadline} value={this.state.newTodo.deadline} />
-                                <img src="/img/calendar.svg" alt="Calendar icon" />
+                                <img src="/todoList/img/calendar.svg" alt="Calendar icon" />
                             </div>
                             <div className="row">
                                 <input id="tagInput" type="text" placeholder="Add tags" onKeyDown={(e) => this.onKeyPress(e, 13, null, null, this.addTag)} />
