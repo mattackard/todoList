@@ -9,6 +9,7 @@ const Filters = ({ setFilter, filterList }) => {
     return (
         <select id="filterDropdown" onChange={e => setFilter(e.target.value)}>
             <option>No Filter</option>
+            <option>Complete</option>
             <option>Sort by Deadline</option>
             {
                 filterList.map((filter, index) => (

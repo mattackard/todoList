@@ -15,7 +15,7 @@ class App extends Component {
 
   state = {
     todo: [ ],
-    filterArray: [ 'Complete' ],
+    filterArray: [ ],
     currentFilter: ''
   };
 
