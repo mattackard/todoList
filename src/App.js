@@ -92,20 +92,7 @@ class App extends Component {
     let target = e.target.closest('li');
     target.classList.add('slide-out-right'); 
 
-    //remove tags not used by any other todo
-    let newFilterArray = [];
-    this.state.todo.forEach((todo, index) => {
-      if (index !== indexToDelete) {
-        todo.tags.forEach(tag => {
-          newFilterArray.push(tag);
-        })
-      }
-    });
-
-    //remove duplicate tags
-    newFilterArray = Array.from(new Set(newFilterArray));
-
-    //wait for the animation to finish, then remove todo from state and adjust filter tags
+    //wait for the animation to finish, then remove todo from state and update filters
     setTimeout(() => {
 
       //need to remove the scale-out and scale-in so the next list item doesn't animate 
@@ -114,15 +101,17 @@ class App extends Component {
         todo: [
           ...this.state.todo.slice(0, indexToDelete),
           ...this.state.todo.slice(indexToDelete + 1)
-        ],
-        filterArray: newFilterArray
+        ]
       });
+      this.updateFilters();
     }, 400);
   }
 
   //removes a given tag if it is present
   removeTag = (e, tagIndex, indexToChange) => {
     if (this.state.todo[indexToChange].tags[tagIndex] === e.target.nextSibling.textContent) {
+
+      //add scale out animation and wait for the animation to end before removing from state
       e.target.closest('.tempTag').classList.add('scale-out-center');
       setTimeout(() => {
         this.setState({
@@ -139,11 +128,31 @@ class App extends Component {
             return todo;
           })
         });
+
+        //remove unused filters here by checking with state
+        this.updateFilters();
       }, 200);
     }
     else {
       alert("Tag not found or already deleted");
     }
+  }
+
+  updateFilters = () => {
+    //builds a new array of filters from current todos
+    let newFilterArray = [];
+    this.state.todo.forEach((todo) => {
+      todo.tags.forEach(tag => {
+        newFilterArray.push(tag);
+      })
+    });
+
+    //remove duplicate tags
+    newFilterArray = Array.from(new Set(newFilterArray));
+
+    this.setState({
+      filterArray: newFilterArray
+    });
   }
 
   //adds a tag to a todo item and adds the tag to the filter list
