@@ -157,7 +157,7 @@ class TodoItem extends Component {
         const opacity = isDragging ? 0 : 1;
 
         let element = <li className={firstLoad ? "todoItem scale-in-center" : "todoItem"} ref={this.setListRef} style={{ opacity }}>
-            <button className="dragTodo"><img src="todoList/img/drag.svg" alt="Drag todo item" /></button>
+            <button className="dragTodo"><img src="/todoList/img/drag.svg" alt="Drag todo item" /></button>
             {
                 isEditing ?
                     <EditModal
